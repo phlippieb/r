@@ -1,13 +1,13 @@
 # shortcut to source all script files that should be sourced
 
-source("rscripts/pwla.R");
-source("rscripts/pwla-util.R");
-source("rscripts/ranks.R");
-source("rscripts/plot-diversity-profiles.R");
+source("scripts/pwla.R");
+source("scripts/pwla-util.R");
+source("scripts/ranks.R");
+source("scripts/plot-diversity-profiles.R");
 
 resrc <- function() {
-	source("rscripts/pwla.R");
-	source("rscripts/pwla-util.R");
-	source("rscripts/ranks.R");	
-	source("rscripts/plot-diversity-profiles.R");
+	source("scripts/pwla.R");
+	source("scripts/pwla-util.R");
+	source("scripts/ranks.R");	
+	source("scripts/plot-diversity-profiles.R");
 }
