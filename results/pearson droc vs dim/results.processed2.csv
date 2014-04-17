@@ -1,0 +1,49 @@
+gbest	ackley	-0.1002819393		gbest	alpine	-0.5413117536		gbest	elliptic	-0.8562775371		gbest	griewank	-0.24618812
+lbest	ackley	0.448849006		lbest	alpine	-0.5001074085		lbest	elliptic	-0.6942633933		lbest	griewank	0.3935458867
+vn	ackley	0.122851584		vn	alpine	0.0321025291		vn	elliptic	-0.6885289614		vn	griewank	-0.0282843361
+gbestgc	ackley	-0.0466161987		gbestgc	alpine	-0.5865575319		gbestgc	elliptic	-0.8330070965		gbestgc	griewank	-0.2578152884
+lbestgc	ackley	0.4446093522		lbestgc	alpine	-0.521698173		lbestgc	elliptic	-0.6526738095		lbestgc	griewank	0.3760590311
+vngc	ackley	0.0798180484		vngc	alpine	-0.2897660789		vngc	elliptic	-0.6810577913		vngc	griewank	0.0701272163
+spso	ackley	-0.7305099202		spso	alpine	-0.7465739843		spso	elliptic	-0.6661442524		spso	griewank	-0.7314644386
+bb	ackley	0.4246903918		bb	alpine	0.3719924035		bb	elliptic	0.5674945294		bb	griewank	0.3416146817
+bba	ackley	0.6060200882		bba	alpine	0.3629047451		bba	elliptic	0.5614076257		bba	griewank	0.5076605906
+														
+gbest	levy	-0.6841614501		gbest	michalewicz	0.1870037642		gbest	quadric	-0.003674156		gbest	quartic	0.2988639368
+lbest	levy	-0.772185003		lbest	michalewicz	0.4567413174		lbest	quadric	0.7271459301		lbest	quartic	0.6925733171
+vn	levy	-0.7913614625		vn	michalewicz	0.4871325124		vn	quadric	0.6765000149		vn	quartic	0.2919446377
+gbestgc	levy	-0.6581148003		gbestgc	michalewicz	0.0196948095		gbestgc	quadric	-0.039564989		gbestgc	quartic	-0.2410418075
+lbestgc	levy	-0.7542858352		lbestgc	michalewicz	0.3893861441		lbestgc	quadric	0.7011808012		lbestgc	quartic	0.3147317407
+vngc	levy	-0.8182019785		vngc	michalewicz	0.4696296655		vngc	quadric	0.7056966247		vngc	quartic	-0.2582091207
+spso	levy	-0.8485255483		spso	michalewicz	-0.6478630683		spso	quadric	-0.7275264261		spso	quartic	-0.5067189145
+bb	levy	0.2334702732		bb	michalewicz	0.4103302638		bb	quadric	0.5565707007		bb	quartic	0.5882835499
+bba	levy	0.1860892818		bba	michalewicz	0.2701001306		bba	quadric	0.4438795109		bba	quartic	0.7381352123
+														
+gbest	rastrigin	-0.7915063987		gbest	rosenbrock	-0.2393719052		gbest	salomon	-0.020139292		gbest	schwefel1_2	-0.048843051
+lbest	rastrigin	-0.6283938526		lbest	rosenbrock	-0.2818128878		lbest	salomon	0.2783487085		lbest	schwefel1_2	0.7059455791
+vn	rastrigin	-0.5591013778		vn	rosenbrock	-0.2163570731		vn	salomon	-0.0120161869		vn	schwefel1_2	0.6865742667
+gbestgc	rastrigin	-0.8207213696		gbestgc	rosenbrock	-0.1154700357		gbestgc	salomon	0.1026907606		gbestgc	schwefel1_2	0.0059082809
+lbestgc	rastrigin	-0.5421797604		lbestgc	rosenbrock	-0.2929348189		lbestgc	salomon	0.2869673		lbestgc	schwefel1_2	0.7621826993
+vngc	rastrigin	-0.5392555245		vngc	rosenbrock	-0.3865656911		vngc	salomon	-0.2421217626		vngc	schwefel1_2	0.7148304183
+spso	rastrigin	-0.7567746289		spso	rosenbrock	-0.7188145956		spso	salomon	-0.7173472321		spso	schwefel1_2	-0.6700294694
+bb	rastrigin	-0.2925875333		bb	rosenbrock	0.1081011078		bb	salomon	0.0969313145		bb	schwefel1_2	0.5107846426
+bba	rastrigin	-0.4281022089		bba	rosenbrock	0.0043775307		bba	salomon	0.2881695189		bba	schwefel1_2	0.3205308921
+														
+gbest	schwefel2_22	-0.382283608		gbest	schwefel2_26	-0.3657788658		gbest	spherical	-0.2656823767		gbest	step	-0.1699514115
+lbest	schwefel2_22	0.3360357519		lbest	schwefel2_26	-0.0249622033		lbest	spherical	0.3998757367		lbest	step	0.3490003697
+vn	schwefel2_22	-0.0260033892		vn	schwefel2_26	0.0849554613		vn	spherical	0.0234952706		vn	step	-0.0318116859
+gbestgc	schwefel2_22	-0.3680017243		gbestgc	schwefel2_26	-0.6107220451		gbestgc	spherical	-0.2254919849		gbestgc	step	-0.2369034951
+lbestgc	schwefel2_22	0.4447969222		lbestgc	schwefel2_26	0.0443039252		lbestgc	spherical	0.3949918141		lbestgc	step	0.4135253359
+vngc	schwefel2_22	-0.1073955713		vngc	schwefel2_26	0.2469319518		vngc	spherical	-0.1049385382		vngc	step	0.1082937175
+spso	schwefel2_22	-0.7552455933		spso	schwefel2_26	-0.4399071332		spso	spherical	-0.6101398		spso	step	-0.600691964
+bb	schwefel2_22	0.1326670422		bb	schwefel2_26	0.2284138037		bb	spherical	0.451673604		bb	step	0.3581004835
+bba	schwefel2_22	0.4707810225		bba	schwefel2_26	0.6356550658		bba	spherical	0.5896493207		bba	step	0.6720516031
+														
+gbest	weierstrass	-0.3883540825		gbest	zakharov	0.6276352158								
+lbest	weierstrass	0.65617448		lbest	zakharov	0.5328691679								
+vn	weierstrass	0.3021848179		vn	zakharov	0.6982801652								
+gbestgc	weierstrass	-0.5521412314		gbestgc	zakharov	0.5174366214								
+lbestgc	weierstrass	0.5054926806		lbestgc	zakharov	0.7323146306								
+vngc	weierstrass	0.0006713705		vngc	zakharov	0.7667280825								
+spso	weierstrass	-0.7715985524		spso	zakharov	-0.7351410149								
+bb	weierstrass	0.3311999095		bb	zakharov	-0.0653752207								
+bba	weierstrass	0.6097628308		bba	zakharov	-0.3339086182								
