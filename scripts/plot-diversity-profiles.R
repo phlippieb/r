@@ -29,6 +29,46 @@ plot.diversity <- function (data) {
 	dev.off();
 }
 
+plot.diversity.plwa <- function (data) {
+	# calculate the pwla
+	source("pwla.R");
+	data <- rowMeans(read.table(data));
+	plines <- pwla(data);
+
+	#draw diversity info
+	pdf(width=5, height=3);
+
+	par(family="serif");
+	par(mar=c(5,4,2,1));
+
+	plot(data,
+		type='l',
+		axes=FALSE,
+		xaxt='n', yaxt='n',
+		xlab="Iterations",
+		ylab="Diversity",
+		lwd=1);)
+
+	box();
+
+	axis(side=1,
+		at=c(1,100,200),
+		labels=c("1", "1000", "2000"),
+		lwd=1);
+
+	axis(side=2,
+		at=c(round(datamin,1), round(datamax,2)),
+		las=0,
+		lwd=1);
+
+	#draw the pwla
+	lines(plines,
+		lty=2,
+		xaxt='n', yaxt='n',
+		xlab="", ylab="",
+		lwd=1);
+}	
+
 plot.diversity.for.two <- function (data1, data1name, data2, data2name) {
 	data1 <- rowMeans(read.table(data1));
 	data2 <- rowMeans(read.table(data2));
@@ -77,3 +117,4 @@ plot.diversity.for.two <- function (data1, data1name, data2, data2name) {
 
 	dev.off();
 }
+
