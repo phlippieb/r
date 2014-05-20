@@ -5,6 +5,11 @@
 #     (not from cilib/rdata/scripts)
 #
 
+read -p "You should be calling this from the parent directory of datascripts. Proceed? " PROCEED
+if [ "$PROCEED" != "y" ]; then
+	exit;
+fi
+
 echo "copying all txt files from ~/cilib/data..."
 cp ~/cilib/data/*txt .
 echo "creating tmp dir..."
