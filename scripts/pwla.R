@@ -21,6 +21,15 @@
 		return (bdf1);
 	}
 
+	# calculates a 2-pwla (like above), but on a subset of iterations of d.
+	# param d:	data to calculate pwla for; same as above.
+	# param i:	the bounding iteration number to go up to.
+	#			the calculation will be done on all data from iteration 1 to i inclusive.
+	# returns:	same as above.
+	pwla.subset <- function(d, i) {
+		pwla(d[1:i]);
+	}
+
 	# calculates the first slope given a pwla dataframe.
 	# param df:	a dataframe object containing "x" and "y" values from a pwla calculation,
 	#			as returned by pwla(...), for example.
