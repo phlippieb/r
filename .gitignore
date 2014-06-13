@@ -2,3 +2,5 @@
 rdata
 *.csv
 Rplots.pdf
+*.sublime-project
+*.sublime-workspace
