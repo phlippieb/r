@@ -1,2 +1,4 @@
+.gitignore
 rdata
 *.csv
+Rplots.pdf
