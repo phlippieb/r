@@ -1,0 +1,13 @@
+The following table show the first iteration at which no significant difference in diversity between consecutive intervals is found for different interval sizes. Eg, the first entry shows that, when comparing diversity at intervals of 2 (though really 20*) iterations, no significant difference is found between diversity measurements at iterations 5 and 7. Clearly, the interval influences the point at which we consider the difference between measurements to become insignificant.
+* Since the sample resolution of the simulation was 10 iterations
+
+interval	first point of insignificance
+		
+2		5-7
+3		97-100
+5		101-105
+10		101-110
+20		101-121
+50		151-201
+100		201-301
+

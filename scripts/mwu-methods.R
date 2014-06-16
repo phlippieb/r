@@ -37,16 +37,23 @@ mwu.pair <-  function(set1, set2) {
 #
 # return:		a (c)ollection of one mwu result for each consecutive pair.
 mwu.consecutivePairs <- function(data) {
-	allranks <- c();
-	# store this just to be safe, for now
 	data.rownames <- rownames(data);
+	allranks.rownames <- c();
+	allranks <- c();
 	for (i in 2:(length(data[,1]))) {
 		allranks <- c(	allranks, 
-						mwu.pair(	unlist(data[i-1,]), 
-									unlist(data[i,])
-								)	
+						mwu.pair(unlist(data[i-1,]), unlist(data[i,]))$set1	
 					);
+		allranks.rownames <- c(	allranks.rownames,
+								paste(	data.rownames[i-1],
+										"-",
+										data.rownames[i],
+										sep=""
+								)
+							);
 	}
+	allranks <- matrix(allranks, ncol=1);
+	rownames(allranks) <- allranks.rownames;
 	return (allranks);
 }
 
