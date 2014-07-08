@@ -1,0 +1,42 @@
+Research plan for extending our ANTS conference entry
+=====================================================
+
+Background:
+-----------
+This research plan deals with a proposed measure of the rate of change in a population's diversity (DRoC measure). The measure relies on diversity measures (e.g. average distance around swarm centre) taken at regular intervals during a simulation of PSO at work. A plot of a number of diversity measures in the y-axis against their iteration numbers, or simply time, in the x-axis typically shows a common pattern: initially, diversity is high; a short period of rapid decrease in diversity follows, possibly associated with decrease in explorative behaviour of the swarm; finally, for the remainder of simulation time, diversity decreases less and eventually becomes stagnant. Below is an illustrative example of typical diversity readings (y) against iterations (x):
+
+y.
+y.
+y .
+y .
+y  .
+y   .
+y    ....................
+ xxxxxxxxxxxxxxxxxxxxxxxx
+
+The DRoC measure is obtained by fitting two-piecewise linear approximations to the data of the diversity measures as described above. Multiple measures can be obtained from the two fitted lines. The slope of the left line has been accepted by ANTS as a measure of the rate of decrease in diversity of the swarm. Future research might look into the value of the slope of the second line and the angle between the two lines.
+
+What is being researched:
+-------------------------
+
+This research will investigate the influence that the number of iterations that the simulation is run for has on the DRoC measures. It is expected that the DRoC measures will be dramatically influenced by the number of iterations taken into account, but only up to a certain point. After this point, the fact that the swarm's diversity has stagnated (which results in a more-or-less flat line in the plot of diversity measures over time) will probably render the linear approximations immune to the inclusion of more diversity measurements.
+
+Plan outline:
+-------------
+1. Use Mann-Whitney U (MWU) tests to investigate the iteration (point in time) for a simulation at which the decrease in diversity (i.e. the difference between each consecutive diversity measurement) becomes statistically insignificant.
+
+2. Inspect the effect on the DRoC measures (slopes of the lines) of taking different numbers of iterations into account. (Of course, rather than testing multiple simulations run for different numbers of iterations, the DRoC measures will simply be calculated on different sub-sets of diversity data, each containing incrementally more diversity measurements.)
+
+Problems encountered:
+---------------------
+For part 1 of the plan (see Plan outline), MWU tests were done to compare diversity measurements at consecutive intervals. For example, the diversity measurements at iteration 0 were tested against those at iteration 10, and those at 10 against those at 20, et cetera. Other interval sizes were also used: for example, for an interval of 100, measurements at iteration 0, 100, 200, etc. were compared. In the original definition of the DRoC measure, it is simply specified that the measure is derived from diversity measures taken at regular intervals. Thus, it should not matter too much whether the measures are taken at consecutive iterations of the simulation (1,2,3...) or larger intervals (10,20,30...). It was found, however, that the size of the interval used for the MWU tests had an influence on the point at which the measurements stopped differing significantly. The below table illustrates this; The first column is the size of the interval used in the consecutive comparison, and the second column shows the first pair of iteration numbers at which no significant difference was found.
+
+interval	first point of insignificance
+- - - - - - - - - - - - - - - - - - - - -
+20			5-7
+30			97-100
+50			101-105
+100			101-110
+200			101-121
+500			151-201
+1000		201-301

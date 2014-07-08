@@ -5,6 +5,7 @@
 # param iterations:	a c()llection of iterations to consider as the cut-off points for each calculation
 #					tip: can be generated with, for example, seq(from=1, to=1001, at=10)
 plot.droc.foriterations <- function(data, iterations) {
+	source("scripts/pwla.R");
 	# first, average the data:
 	data <- rowMeans(data);
 
