@@ -19,12 +19,12 @@ mwu.pair <-  function(set1, set2) {
 	for (i in 1:length(set2)) {
 		allnames <- c(allnames, "set2");
 	}
-	data <- c(alldata)
+	data <- c(alldata);
 	data 
-	group <- factor(allnames)
+	group <- factor(allnames);
 	group
-	rankList <- rankF(data,group,0.05,FALSE)
-	return (rankList)
+	rankList <- rankF(data,group,0.05,FALSE);
+	return (rankList);
 
 }
 
@@ -67,14 +67,16 @@ mwu.consecutivePairs <- function(data) {
 #
 # return:		a (c)ollection of one mwu result for each consecutive pair.
 mwu.consecutivePairs.at <- function(data, at) {
-	data.selection <- c();
-	data.rownames <- c();
-	for (a in at) {
-		data.selection <- c(data.selection, unlist(data[at,]));
-		data.rownames <- c(data.rownames, a);
-	}
+   # select only the rows given in 'at':
+   data.selection <- data[at,];
+   # unlist and unname the entire selection, turning it into a big array of data:
+   data.selection <- unlist(unname(data.selection));
+   # re-organize all data into a matrix:
+   #  number of rows is the number of entries in 'at' - makes sense, as that is the exact number of rows selected
+   #  number of columns is the length of one row of the original data
 	data.selection <- matrix(data.selection, nrow=(length(at)), ncol=(length(data[(at[1]),])));
-	rownames(data.selection) <- data.rownames;
+   # the name of each row is obtained from 'at':
+	rownames(data.selection) <- at;
 	#return (data.selection);
 	return (mwu.consecutivePairs(data.selection));
 }
