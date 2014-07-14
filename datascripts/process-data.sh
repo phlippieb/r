@@ -5,7 +5,7 @@
 #     (not from cilib/rdata/scripts)
 #
 
-read -p "You should be calling this from the parent directory of datascripts. Proceed? " PROCEED
+read -p "You should be calling this from the parent directory of datascripts. Proceed (y)? " PROCEED
 if [ "$PROCEED" != "y" ]; then
 	exit;
 fi
@@ -29,6 +29,11 @@ echo "   splitting fitness and diversity into new files..."
 ./split-fitness-and-diversity.sh
 echo "removing old files"...
 rm *.txt
+
+# comment out to keep fitness data:
+echo "removing fitness data..."
+rm *.fit
+
 cd ..
 echo "moving data to finaldata/..."
 mv tmp/*.rdata rdata/.
