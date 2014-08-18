@@ -57,6 +57,7 @@ droc.foriterations <- function(data, iterations) {
 	sl1s <- c();
 	sl2s <- c();
 	for (i in iterations) {
+		print(paste("iteration: ", i));
 		p <- pwla.subset(data, i);
 		sl1s <- c(sl1s, pwla.slope1(p));
 		sl2s <- c(sl2s, pwla.slope2(p));
