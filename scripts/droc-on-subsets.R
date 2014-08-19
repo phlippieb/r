@@ -103,31 +103,23 @@ droc.foriterations.unaveraged <- function(data, iterations, resolution=10, sampl
 	return (result);
 }
 
-# parallelisable version of above (hopfully)
-droc.foriterations.unaveraged.par <- function(data, iterations, resolution=10, samples=30) {
+# parallelisable version of above (hopfully) (seems to be doing the trick :)
+sl1s.foriterations.unaveraged.par <- function(data, iterations, resolution=10, samples=30) {
 	# calculate sl1 and sl2 for each cut-off iteration:
 	sl1s <- c();
-	sl2s <- c();
 	ps <- c();
 	for (i in iterations) {
 		print(paste("iteration: ", i));
 		ps <- foreach (s = 1:samples) %dopar% {
 			p <- pwla.subset(data[,s], i, resolution);
 			return (p);
-			#sl1s <- c(sl1s, pwla.slope1(p));
-			#sl2s <- c(sl2s, pwla.slope2(p));
 		}
-		sl1s.tmp <- foreach (p in ps) %dopar% {
+		sl1s.tmp <- foreach (p = ps) %dopar% {
 			return (pwla.slope1(p));
 		}
 		sl1s <- c(sl1s, sl1s.tmp);
 	}
 
 	sl1s <- matrix(sl1s, ncol=samples);
-	#rownames(sl1s) <- iterations;
-	sl2s <- matrix(sl2s, ncol=samples);
-	#rownames(sl2s) <- iterations;
-	
-	result <- list("sl1s"=sl1s, "sl2s"=sl2s);
-	return (result);
+	return (sl1s);
 }
