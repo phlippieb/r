@@ -79,24 +79,54 @@ droc.foriterations <- function(data, iterations) {
 # param data:		the diversity data; not averaged
 # param iterations:	a c()llection of iterations to consider as the cut-off points for each calculation
 #					tip: can be generated with, for example, seq(from=1, to=1001, at=10)
-droc.foriterations.unaveraged <- function(data, iterations, samples=30) {
+droc.foriterations.unaveraged <- function(data, iterations, resolution=10, samples=30) {
 	# calculate sl1 and sl2 for each cut-off iteration:
 	sl1s <- c();
 	sl2s <- c();
 	for (i in iterations) {
-		print(paste("iteration: ", i));
+		cat(paste("iteration: ", i));
 		for (s in 1:samples) {
-		print(paste("  sample: ", s));	
-			p <- pwla.subset(data[,s], i);
+		cat(".");	
+			p <- pwla.subset(data[,s], i, resolution);
 			sl1s <- c(sl1s, pwla.slope1(p));
 			sl2s <- c(sl2s, pwla.slope2(p));
 		}
+		print("");
 	}
 
 	sl1s <- matrix(sl1s, ncol=samples);
-	rownames(sl1s) <- iterations;
+	#rownames(sl1s) <- iterations;
 	sl2s <- matrix(sl2s, ncol=samples);
-	rownames(sl2s) <- iterations;
+	#rownames(sl2s) <- iterations;
+	
+	result <- list("sl1s"=sl1s, "sl2s"=sl2s);
+	return (result);
+}
+
+# parallelisable version of above (hopfully)
+droc.foriterations.unaveraged.par <- function(data, iterations, resolution=10, samples=30) {
+	# calculate sl1 and sl2 for each cut-off iteration:
+	sl1s <- c();
+	sl2s <- c();
+	ps <- c();
+	for (i in iterations) {
+		print(paste("iteration: ", i));
+		ps <- foreach (s = 1:samples) %dopar% {
+			p <- pwla.subset(data[,s], i, resolution);
+			return (p);
+			#sl1s <- c(sl1s, pwla.slope1(p));
+			#sl2s <- c(sl2s, pwla.slope2(p));
+		}
+		sl1s.tmp <- foreach (p in ps) %dopar% {
+			return (pwla.slope1(p));
+		}
+		sl1s <- c(sl1s, sl1s.tmp);
+	}
+
+	sl1s <- matrix(sl1s, ncol=samples);
+	#rownames(sl1s) <- iterations;
+	sl2s <- matrix(sl2s, ncol=samples);
+	#rownames(sl2s) <- iterations;
 	
 	result <- list("sl1s"=sl1s, "sl2s"=sl2s);
 	return (result);
