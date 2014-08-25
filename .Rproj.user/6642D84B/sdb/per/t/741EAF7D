@@ -1,0 +1,16 @@
+{
+    "contents" : "plot.diversity <- function (data) {\n\tdata <- rowMeans(read.table(data));\n\n\tpdf(width=3, height=3);\n\n\tpar(family=\"serif\");\n\tpar(mar=c(5,4,2,1));\n\n\tplot(data,\n\t\ttype='l',\n\t\taxes=FALSE,\n\t\txaxt='n', yaxt='n',\n\t\txlab=\"Iterations\",\n\t\tylab=\"Diversity\",\n\t\tlwd=1);\n\n\tbox();\n\n\taxis(side=1,\n\t\tat=c(1,100,200),\n\t\tlabels=c(\"1\", \"1000\", \"2000\"),\n\t\tlwd=1);\n\n\taxis(side=2,\n\t\tat=c(round(min(data),1), round(max(data),2)),\n\t\tlas=0,\n\t\tlwd=1);\n\n\tdev.off();\n}\n\nplot.diversity.pwla <- function (data) {\n\t# calculate the pwla\n\tdata <- rowMeans(read.table(data));\n\tplines <- pwla(data);\n\n\t# draw diversity info\n\tpdf(width=5, height=3);\n\n\tpar(family=\"serif\");\n\tpar(mar=c(5,4,2,1));\n\n\tplot(data,\n\t\ttype='l',\n\t\tlty=2,\n\t\taxes=FALSE,\n\t\txaxt='n', yaxt='n',\n\t\txlab=\"Iterations\",\n\t\tylab=\"Diversity\",\n\t\tlwd=1);\n\n\tbox();\n\n\taxis(side=1,\n\t\tat=c(1,100,200),\n\t\tlabels=c(\"1\", \"1000\", \"2000\"),\n\t\tlwd=1);\n\n\taxis(side=2,\n\t\tat=c(round(min(data)), round(max(data))),\n\t\tlas=0,\n\t\tlwd=1);\n\n\t# draw the pwla\n\tlines(plines,\n\t\tlty=1,\n    col='red',\n\t\txaxt='n', yaxt='n',\n\t\txlab=\"\", ylab=\"\",\n\t\tlwd=1);\n\t# finalise pdf\n\tdev.off();\n}\t\n\nplot.diversity.for.two <- function (data1, data1name, data2, data2name) {\n\tdata1 <- rowMeans(read.table(data1));\n\tdata2 <- rowMeans(read.table(data2));\n\tdatamin <- min(min(data1), min(data2));\n\tdatamax <- max(max(data1), max(data2));\n\n\tpdf(width=5, height=3);\n\n\tpar(family=\"serif\");\n\tpar(mar=c(5,4,2,1));\n\n\tplot(data1,\n\t\tylim=c(datamin, datamax),\n\t\ttype='l',\n\t\taxes=FALSE,\n\t\txaxt='n', yaxt='n',\n\t\txlab=\"Iterations\",\n\t\tylab=\"Diversity\",\n\t\tlwd=1);\n\n\tlines(data2,\n\t\tlty=2,\n\t\txaxt='n', yaxt='n',\n\t\txlab=\"\",\n\t\tylab=\"\",\n\t\tlwd=1);\n\n\tbox();\n\n\taxis(side=1,\n\t\tat=c(1,100,200),\n\t\tlabels=c(\"1\", \"1000\", \"2000\"),\n\t\tlwd=1);\n\n\taxis(side=2,\n\t\tat=c(round(datamin,1), round(datamax,2)),\n\t\tlas=0,\n\t\tlwd=1);\n\n\tlegend('topright', \n\t\t\tlegend=c(data1name, data2name),\n\t\t\tlty=c(1,2),\n\t\t\tbty='n',\n\t\t\t#cex=.75\n\t\t\t);\n\n\tdev.off();\n}\n\n",
+    "created" : 1408958122645.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2081802982",
+    "id" : "741EAF7D",
+    "lastKnownWriteTime" : 1408958311,
+    "path" : "~/r/scripts/plot-diversity-profiles.R",
+    "project_path" : "scripts/plot-diversity-profiles.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

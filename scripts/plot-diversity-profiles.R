@@ -64,6 +64,7 @@ plot.diversity.pwla <- function (data) {
 	# draw the pwla
 	lines(plines,
 		lty=1,
+    col='red',
 		xaxt='n', yaxt='n',
 		xlab="", ylab="",
 		lwd=1);

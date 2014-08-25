@@ -1,2 +1,4 @@
 rdata
 *.csv
+*.sublime-project
+*.sublime-workspace
