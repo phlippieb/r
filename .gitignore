@@ -2,3 +2,5 @@ rdata
 *.csv
 *.sublime-project
 *.sublime-workspace
+.RData
+.Rhistory
