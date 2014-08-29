@@ -1,0 +1,19 @@
+gbest.lbest gbest.vn gbest.spso gbest.gbestgc gbest.lbestgc gbest.vngc gbest.bb gbest.bba lbest.vn lbest.spso lbest.gbestgc lbest.lbestgc lbest.vngc lbest.bb lbest.bba vn.spso vn.gbestgc vn.lbestgc vn.vngc vn.bb vn.bba spso.gbestgc spso.lbestgc spso.vngc spso.bb spso.bba gbestgc.lbestgc gbestgc.vngc gbestgc.bb gbestgc.bba lbestgc.vngc lbestgc.bb lbestgc.bba vngc.bb vngc.bba bb.bba
+ackley 1 1 -1 0 1 1 0 1 -1 -1 -1 0 -1 -1 -1 -1 -1 1 0 -1 -1 1 1 1 1 1 1 1 0 1 -1 -1 -1 -1 -1 1
+alpine 1 1 0 1 1 1 1 1 0 -1 -1 0 0 -1 -1 -1 -1 0 0 -1 0 1 1 1 1 1 1 1 0 1 0 -1 0 -1 -1 1
+elliptic 1 1 1 0 1 1 0 1 -1 -1 -1 0 -1 -1 -1 1 -1 1 1 -1 -1 -1 1 0 -1 -1 1 1 0 1 -1 -1 -1 -1 -1 1
+eggholder -1 1 -1 0 -1 1 1 1 1 0 1 0 1 1 1 -1 0 -1 0 0 1 1 0 1 1 1 -1 1 1 1 1 1 1 0 1 1
+griewank 1 1 0 0 1 1 0 1 -1 -1 -1 0 -1 -1 -1 -1 -1 1 0 -1 -1 -1 1 1 0 1 1 1 1 1 -1 -1 -1 -1 -1 1
+levy 1 1 0 0 1 1 0 1 -1 -1 -1 0 -1 -1 -1 -1 -1 1 0 -1 0 0 1 1 0 1 1 1 0 1 -1 -1 -1 -1 0 1
+michalewicz 1 1 -1 1 1 1 1 1 1 -1 -1 0 1 -1 1 -1 -1 -1 0 -1 0 1 1 1 1 1 1 1 0 1 1 -1 1 -1 0 1
+quadric 1 1 -1 0 1 1 1 1 -1 -1 -1 0 -1 -1 0 -1 -1 1 0 1 1 1 1 1 1 1 1 1 1 1 -1 -1 0 1 1 1
+quartic 1 1 0 1 1 1 0 1 -1 -1 -1 1 -1 -1 -1 -1 -1 1 1 -1 -1 1 1 1 1 1 1 1 0 1 -1 -1 -1 -1 -1 1
+rastrigin 1 1 -1 1 1 1 1 1 1 -1 -1 0 1 0 1 -1 -1 -1 0 -1 1 1 1 1 1 1 1 1 0 1 1 0 1 -1 1 1
+rosenbrock 1 1 1 0 1 1 1 1 -1 -1 -1 0 -1 -1 -1 0 -1 1 0 -1 -1 -1 1 0 -1 -1 1 1 1 1 -1 -1 -1 -1 -1 0
+salomon 1 1 -1 0 1 1 1 1 -1 -1 -1 0 -1 -1 -1 -1 -1 1 0 -1 1 1 1 1 1 1 1 1 1 1 -1 -1 -1 -1 1 1
+schwefel1_2 1 1 -1 0 1 1 1 1 -1 -1 -1 0 -1 -1 0 -1 -1 1 0 0 1 1 1 1 1 1 1 1 1 1 -1 -1 0 0 1 1
+schwefel2_22 1 1 0 0 1 1 0 1 -1 -1 -1 0 -1 -1 -1 -1 -1 1 1 -1 -1 0 1 1 -1 0 1 1 -1 0 -1 -1 -1 -1 -1 1
+schwefel2_26 0 1 -1 0 -1 1 0 0 1 0 0 0 1 0 0 -1 -1 -1 0 -1 -1 0 0 1 1 1 0 1 0 0 1 0 1 -1 -1 0
+spherical 1 1 0 0 1 1 0 1 -1 -1 -1 0 -1 -1 -1 -1 -1 1 -1 -1 -1 0 1 1 0 1 1 1 0 1 -1 -1 -1 -1 -1 1
+step 1 1 -1 0 1 1 0 1 -1 -1 -1 0 -1 -1 -1 -1 -1 1 0 -1 -1 1 1 1 1 1 1 1 0 1 -1 -1 -1 -1 -1 1
+zakharov 1 1 -1 0 1 1 1 1 -1 -1 -1 0 -1 -1 1 -1 -1 1 0 0 1 1 1 1 1 1 1 1 1 1 -1 -1 1 0 1 1
