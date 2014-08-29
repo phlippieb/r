@@ -4,3 +4,5 @@ rdata
 *.sublime-workspace
 .RData
 .Rhistory
+mwu-partial
+mwu

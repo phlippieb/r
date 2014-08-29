@@ -90,14 +90,7 @@ generate.partial.MWU.all.2 <- function() {
 	print("a directory called ``mwu-partial'' must exist here for this function to work!");
 	Sys.sleep(3);
 
-	functions <- c("ackley", "elliptic", "rastrigin", 
-					"rosenbrock", "schwefel1_2", "alpine", 
-					 "eggholder", 
-					"goldsteinprice", "griewank", "levy", 
-					"michalewicz", "quadric", "quartic",
-					"salomon", "schwefel2_22","schwefel2_26",
-					#"sixhump", 
-					"spherical", "step", "zakharov");
+	functions <- c("ackley", "elliptic", "rastrigin", "rosenbrock", "schwefel1_2", "alpine", "eggholder", "griewank", "levy", "michalewicz", "quadric", "quartic", "salomon", "schwefel2_22","schwefel2_26", "spherical", "step", "zakharov");
 
 	algorithms <- c("gbest", "lbest", "vn", "spso", "gbestgc", "lbestgc", "vngc", "bb", "bba");
 
@@ -117,7 +110,7 @@ generate.partial.MWU.all.2 <- function() {
 	count <- 1;
 
 	for (f in 1:length(functions)) {
-		for (a1 in 1:(length(algorithms)-1)) {
+		for (a1 in 1:(length(algorithms))) {
 			print(paste("[", count, "/", totalRuns, "]  Doing ", algorithms[a1], ".", functions[f], ".partial.txt", sep=""));
 			count <- count + 1;
 			alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".25.div", sep=''), quote="\"");
