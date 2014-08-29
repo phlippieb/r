@@ -98,7 +98,7 @@ generate.partial.MWU.all.2 <- function() {
 	count <- 1;
 
 	for (f in 1:length(functions)) {
-		for (a1 in 1:(length(algorithms)-1)) {
+		for (a1 in 1:(length(algorithms))) {
 			count <- count + 1;
 		}
 	}

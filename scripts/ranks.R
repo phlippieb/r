@@ -1,12 +1,12 @@
 rankAll <- function() {
   functions <- c( "ackley", "alpine", "elliptic", "eggholder", 
-                  "goldsteinprice", "griewank", "levy", "michalewicz", 
+                  "griewank", "levy", "michalewicz", 
                   "quadric", "quartic", "rastrigin", "rosenbrock", 
                   "salomon", "schwefel1_2", "schwefel2_22", "schwefel2_26", 
-                  "sixhump", "spherical", "step", "zakharov");
+                  "spherical", "step", "zakharov");
   
 
-   algorithms <- c("gbest", "lbest", "vn", "spso", "gcstar", "gcring", "gcvn", "bb", "bbe");
+   algorithms <- c("gbest", "lbest", "vn", "spso", "gbestgc", "lbestgc", "vngc", "bb", "bba");
 
    a1 <- 1;
    count <- 1;
