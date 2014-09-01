@@ -27,15 +27,8 @@ generate.Mann.Whitney.U.all.2 <- function() {
 	print("a directory called ``mwu'' must exist here for this function to work!");
 	Sys.sleep(3);
 
-	functions <- c("ackley", "elliptic", "rastrigin", 
-					"rosenbrock", "schwefel1_2", "alpine", 
-					 "eggholder", 
-					"goldsteinprice", "griewank", "levy", 
-					"michalewicz", "quadric", "quartic",
-					"salomon", "schwefel2_22","schwefel2_26",
-					#"sixhump", 
-					"spherical", "step", "zakharov");
-
+	functions <- c("ackley");
+	#functions <- c("ackley", "elliptic", "rastrigin", "rosenbrock", "schwefel1_2", "alpine", "eggholder", "goldsteinprice", "griewank", "levy", "michalewicz", "quadric", "quartic", "salomon", "schwefel2_22","schwefel2_26", "spherical", "step", "zakharov");
 	algorithms <- c("gbest", "lbest", "vn", "spso", "gbestgc", "lbestgc", "vngc", "bb", "bba");
 
 	a1 <- 1;
@@ -55,9 +48,11 @@ generate.Mann.Whitney.U.all.2 <- function() {
 	a1 <- 1;
 	count <- 1;
 
+	ptime <- system.time({
 	for (f in 1:length(functions)) {
 		for (a1 in 1:(length(algorithms)-1)) {
-			for (a2 in (a1+1):length(algorithms)) {
+			#for (a2 in (a1+1):length(algorithms)) {
+			foreach(a2 = (a1+1):length(algorithms)) %do% {
 				print(paste("[", count, "/", totalRuns, "]  Doing ", algorithms[a1], ".", algorithms[a2], ".", functions[f], ".txt", sep=""));
 				count <- count + 1;
 				alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".25.div", sep=''), quote="\"");
@@ -66,6 +61,8 @@ generate.Mann.Whitney.U.all.2 <- function() {
 			}
 		}
 	}
+	})[3]
+	print(ptime);
 }
 
 generate.Mann.Whitney.U.2 <- function(alg1.data, alg1.name, alg2.data, alg2.name, fun.name) {
@@ -88,14 +85,18 @@ generate.Mann.Whitney.U.2 <- function(alg1.data, alg1.name, alg2.data, alg2.name
 generate.partial.MWU.all.2 <- function() {
 	print("NB:");
 	print("a directory called ``mwu-partial'' must exist here for this function to work!");
-	Sys.sleep(3);
+	Sys.sleep(1);
+
+	library(doParallel);
+	registerDoParallel();
 
 	functions <- c("ackley", "elliptic", "rastrigin", "rosenbrock", "schwefel1_2", "alpine", "eggholder", "griewank", "levy", "michalewicz", "quadric", "quartic", "salomon", "schwefel2_22","schwefel2_26", "spherical", "step", "zakharov");
-
 	algorithms <- c("gbest", "lbest", "vn", "spso", "gbestgc", "lbestgc", "vngc", "bb", "bba");
+	#functions <- c("ackley");
+	#algorithms <- c("gbest", "lbest", "vn", "spso");
 
 	a1 <- 1;
-	count <- 1;
+	count <- 0;
 
 	for (f in 1:length(functions)) {
 		for (a1 in 1:(length(algorithms))) {
@@ -109,21 +110,57 @@ generate.partial.MWU.all.2 <- function() {
 	a1 <- 1;
 	count <- 1;
 
-	for (f in 1:length(functions)) {
-		for (a1 in 1:(length(algorithms))) {
-			print(paste("[", count, "/", totalRuns, "]  Doing ", algorithms[a1], ".", functions[f], ".partial.txt", sep=""));
-			count <- count + 1;
-			alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".25.div", sep=''), quote="\"");
-			generate.partial.MWU.2(alg1.data, algorithms[a1], functions[f]);
+	ptime <- system.time({
+		for (f in 1:length(functions)) {
+			for (a1 in 1:(length(algorithms))) {
+			#foreach (a1 = 1:(length(algorithms))) %dopar% {
+				print(paste("[", count, "/", totalRuns, "]  Doing ", algorithms[a1], ".", functions[f], ".partial.txt", sep=""));
+				count <- count + 1;
+				alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".25.div", sep=''), quote="\"");
+				generate.partial.MWU.2(alg1.data, algorithms[a1], functions[f]);
+			}
 		}
-	}
+	})
+	print(ptime);
 }
 
 generate.partial.MWU.2 <- function (alg1.data, alg1.name, fun.name) {
 	result.df <- data.frame ( sl1=rep(NA, 30), lab=rep("", 30), stringsAsFactors=FALSE);
-	for (i in 1:30) {
-		result.df[i,] <- c(pwla.slope2(pwla(alg1.data[,i])), alg1.name)
-	}
+	ptime <- system.time({
+		foreach (i = 1:30) %dopar% {
+			print(paste("sample:", i, sep=" "));
+			result.df[i,] <- c(pwla.slope2(pwla(alg1.data[,i])), alg1.name)
+		}
+	});
+	print(ptime);
+	(result.df);
+	write.table(	result.df,
+					paste(
+						"mwu-partial/", 
+						paste(
+							alg1.name, 
+							fun.name, 
+							"partial", 
+							"txt", 
+							sep="."
+						), 
+						sep=""
+					),
+					row.names=FALSE,
+					col.names=FALSE,
+					quote=FALSE,
+					sep=" "
+				);
+}
+
+generate.partial.MWU.2.sequential <- function (alg1.data, alg1.name, fun.name) {
+	result.df <- data.frame ( sl1=rep(NA, 30), lab=rep("", 30), stringsAsFactors=FALSE);
+	ptime <- system.time({
+		foreach (i = 1:30) %do% {
+			result.df[i,] <- c(pwla.slope2(pwla(alg1.data[,i])), alg1.name)
+		}
+	});
+	print(ptime);
 	(result.df);
 	write.table(	result.df,
 					paste(
