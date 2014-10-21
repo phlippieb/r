@@ -40,7 +40,7 @@ int main() {
 
 	for (vector<string>::iterator ai = algorithms.begin(); ai != algorithms.end(); ++ai) {
 		for (vector<string>::iterator fi = functions.begin(); fi != functions.end(); ++fi) {
-				cout << "plot.diversity(\"" << *ai << ".25." << *fi << ".25\", log=\"x\");" << endl;
+				cout << "plot.diversity(\"" << *ai << ".25." << *fi << ".25\", log=\"xy\");" << endl;
 		}
 		cout << "plot.diversity(\"" << *ai << ".25.goldsteinprice.2\", log=\"x\");" << endl;
 		cout << "plot.diversity(\"" << *ai << ".25.sixhump.2\", log=\"x\");" << endl;
