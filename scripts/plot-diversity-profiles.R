@@ -1,7 +1,7 @@
-plot.diversity <- function (data) {
-	data <- rowMeans(read.table(data));
+plot.diversity <- function (name, ...) {
+	data <- rowMeans(read.table(paste("rdata/", name, ".div", sep="")));
 
-	pdf(width=3, height=3);
+	pdf(paste("plots/", name, ".pdf", sep=""), width=3, height=3);
 
 	par(family="serif");
 	par(mar=c(5,4,2,1));
@@ -12,7 +12,8 @@ plot.diversity <- function (data) {
 		xaxt='n', yaxt='n',
 		xlab="Iterations",
 		ylab="Diversity",
-		lwd=1);
+		lwd=1,
+		...);
 
 	box();
 
