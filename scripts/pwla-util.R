@@ -107,7 +107,7 @@ generate.Mann.Whitney.U.all <- function() {
 }
 
 generate.Mann.Whitney.U <- function(alg1.data, alg1.name, alg2.data, alg2.name, fun.name) {
-	source("rscripts/pwla-util.R");
+	#source("rscripts/pwla-util.R");
 	result.df <- data.frame ( sl1=rep(NA, 60), lab=rep("", 60), stringsAsFactors=FALSE);
 	for(i in 1:30) {
 		result.df[i,] <- c(pwla.slope1(pwla(alg1.data[,i])), alg1.name);
