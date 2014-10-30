@@ -1,10 +1,11 @@
 plot.diversity <- function (name, ...) {
 	data <- rowMeans(read.table(paste("rdata/", name, ".div", sep="")));
 
-	pdf(paste("plots/", name, ".pdf", sep=""), width=3, height=3);
+	png(paste("plots/", name, ".png", sep=""), width=10, height=10);
 
 	par(family="serif");
-	par(mar=c(5,4,2,1));
+	#par(mar=c(5,4,2,1));
+	par(mfcol=c(12,12), oma=c(1,1,0,0), mar=c(1,1,1,0), tcl=-0.1, mgp=c(0,0,0))
 
 	plot(data,
 		type='l',
