@@ -123,3 +123,246 @@ generate.Mann.Whitney.U <- function(alg1.data, alg1.name, alg2.data, alg2.name, 
 					quote=FALSE,
 					sep=" ");
 }
+
+
+
+# Same as the non-withiterations version, but with added functionality for generating sl1 data for different subsets of data.
+# The iterations list is used to get different DRoC values using the subset functions.
+
+generate.MWU.all.withiterations <- function() {
+
+	functions <- c(
+					"ackley",
+					"alpine",
+					"eggholder",
+					"elliptic",
+					#"goldsteinprice",
+					"griewank",
+					"levy",
+					"michalewicz",
+					"quadric",
+					"quartic",
+					"rastrigin",
+					"rosenbrock",
+					"salomon",
+					"schwefel1_2",
+					"schwefel2_22",
+					"schwefel2_26",
+					#"sixhump",
+					"spherical",
+					"step",
+					"zakharov"
+				);
+
+	algorithms <- c(
+					"bb",
+					"bba",
+					"gbest",
+					"gbestgc",
+					"lbest",
+					"lbestgc",
+					"spso",
+					"vn",
+					"vngc"
+				);
+
+	iterations <- c(
+					500, 
+					1000, 
+					5000, 
+					10000
+				);
+
+	a1 <- 1;	
+	count <- 1;
+
+	for (f in 1:length(functions))
+		for (a1 in 1:(length(algorithms)-1))
+			for (a2 in (a1+1):length(algorithms))
+				for (i in iterations)
+					if (! file.exists(paste("mwu/", algorithms[a1], ".", algorithms[a2], ".", functions[f], ".", i, ".txt", sep="")))
+					count <- count + 1;
+
+	print(paste("Total runs required: ", count));
+
+	a1 <- 1;
+	count <- 1;
+
+	for (i in iterations) {
+		for (f in 1:length(functions)) {
+			for (a1 in 1:(length(algorithms)-1)) {
+				for (a2 in (a1+1):length(algorithms)) {
+					if (! file.exists(paste("mwu/", algorithms[a1], ".", algorithms[a2], ".", functions[f], ".", i, ".txt", sep=""))) {
+						print(paste(count, " doing ", algorithms[a1], ".", algorithms[a2], ".", functions[f], ".", i, ".txt", sep=""));
+						count <- count + 1;
+						alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".25.div", sep=''), quote="\"");
+						alg2.data <- read.table (paste("rdata/", algorithms[a2], ".25.", functions[f], ".25.div", sep=''), quote="\"");
+						generate.MWU.withiterations(alg1.data, algorithms[a1], alg2.data, algorithms[a2], functions[f], i);
+					}
+				}
+			}
+		}
+	}
+}
+
+generate.MWU.withiterations <- function(alg1.data, alg1.name, alg2.data, alg2.name, fun.name, iteration) {
+	result.df <- data.frame ( sl1=rep(NA, 60), lab=rep("", 60), stringsAsFactors=FALSE);
+	for(sample in 1:30) {
+		result.df[sample,] <- c(pwla.slope1(pwla.subset(alg1.data[,sample], iteration)), alg1.name);
+	}
+	for(sample in 1:30) {
+		result.df[sample+30,] <- c(pwla.slope1(pwla.subset(alg2.data[,sample], iteration)), alg2.name);
+	}
+	(result.df);
+	write.table(	result.df,
+					paste("mwu/", paste(alg1.name, alg2.name, fun.name, iteration, "txt", sep="."), sep=""),
+					row.names=FALSE,
+					col.names=FALSE,
+					quote=FALSE,
+					sep=" ");
+}
+
+
+generate.partial.MWU.withiterations.all <- function() {
+	print("NB:");
+	print("a directory called ``mwu-partial'' must exist here for this function to work!");
+	Sys.sleep(1);
+
+	functions <- c(
+					"ackley",
+					"alpine",
+					"eggholder",
+					"elliptic",
+					#"goldsteinprice",
+					"griewank",
+					"levy",
+					"michalewicz",
+					"quadric",
+					"quartic",
+					"rastrigin",
+					"rosenbrock",
+					"salomon",
+					"schwefel1_2",
+					"schwefel2_22",
+					"schwefel2_26",
+					#"sixhump",
+					"spherical",
+					"step",
+					"zakharov"
+				);
+
+	algorithms <- c(
+					"bb",
+					"bba",
+					"gbest",
+					"gbestgc",
+					"lbest",
+					"lbestgc",
+					"spso",
+					"vn",
+					"vngc"
+				);
+
+	iterations <- c(
+					500, 
+					1000, 
+					5000, 
+					10000
+				);
+
+	library(doParallel);
+	registerDoParallel();
+
+	a1 <- 1;
+	count <- 0;
+
+	for (i in iterations)
+		for (f in 1:length(functions))
+			for (a1 in 1:(length(algorithms)))
+				count <- count + 1;
+
+	totalRuns <- count;
+	print(paste("Total runs required: ", totalRuns));
+
+	a1 <- 1;
+	count <- 1;
+
+	#ptime <- system.time({
+		for (i in 1:length(iterations)) {
+			for (f in 1:length(functions)) {
+				for (a1 in 1:(length(algorithms))) {
+				#foreach (a1 = 1:(length(algorithms))) %dopar% {
+					if (!file.exists(paste("mwu-partial/", 					 algorithms[a1], ".", functions[f], ".", iterations[i], ".partial.txt", sep=""))) {
+						print(paste("[", count, "/", totalRuns, "]  Doing ", algorithms[a1], ".", functions[f], ".", iterations[i], ".partial.txt", sep=""));
+						count <- count + 1;
+						alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".25.div", sep=''), quote="\"");
+						generate.partial.MWU.withiterations.sequential(alg1.data, algorithms[a1], functions[f], iterations[i]);
+					}
+				}
+			}
+		}
+	#})
+	
+	print(ptime);
+}
+
+generate.partial.MWU.withiterations <- function (alg1.data, alg1.name, fun.name, iterations) {
+	result.df <- data.frame ( sl1=rep(NA, 30), lab=rep("", 30), stringsAsFactors=FALSE);
+	ptime <- system.time({
+		result.df <- foreach (i = 1:30) %dopar% {
+			#print(paste("sample:", i, sep=" "));
+			#result.df[i,] <- c(pwla.slope2(pwla(alg1.data[,i])), alg1.name)
+			row <- c(pwla.slope2(pwla.subset(alg1.data[,i], iterations)), alg1.name)
+			print(paste("Sample", i, ":", row));
+			return (unlist(row));
+		}
+	});
+	print(ptime);
+	print(result.df[1]);
+	write.table(	result.df,
+					paste(
+						"mwu-partial/", 
+						paste(
+							alg1.name, 
+							fun.name, 
+							iterations,
+							"partial", 
+							"txt", 
+							sep="."
+						), 
+						sep=""
+					),
+					row.names=FALSE,
+					col.names=FALSE,
+					quote=FALSE,
+					sep=" "
+				);
+}
+
+generate.partial.MWU.withiterations.sequential <- function (alg1.data, alg1.name, fun.name, iterations) {
+	result.df <- data.frame ( sl1=rep(NA, 30), lab=rep("", 30), stringsAsFactors=FALSE);
+	ptime <- system.time({
+		foreach (i = 1:30) %do% {
+			result.df[i,] <- c(pwla.slope2(pwla.subset(alg1.data[,i], iterations)), alg1.name)
+		}
+	});
+	print(ptime);
+	print(result.df);
+	write.table(	result.df,
+					paste(
+						"mwu-partial/", 
+						paste(
+							alg1.name, 
+							fun.name, 
+							"partial", 
+							"txt", 
+							sep="."
+						), 
+						sep=""
+					),
+					row.names=FALSE,
+					col.names=FALSE,
+					quote=FALSE,
+					sep=" "
+				);
+}
