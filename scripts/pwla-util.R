@@ -224,10 +224,15 @@ generate.MWU.withiterations <- function(alg1.data, alg1.name, alg2.data, alg2.na
 
 
 generate.partial.MWU.withiterations.all <- function() {
-	print("NB:");
-	print("a directory called ``mwu-partial'' must exist here for this function to work!");
-	Sys.sleep(1);
+	
+	# Check if a directory called mwu-partial already exists.
+	# If not, create it
+	if(!file.exists("mwu-partial"))
+		dir.create("mwu-partial");
+	
 
+	# Define the functions that we want to use
+	# NB: for now, I'm too lazy to create a separate way deal with fixed-dimension functions, so it has to be manually swapped out
 	functions <- c(
 					"ackley",
 					"alpine",
@@ -251,6 +256,7 @@ generate.partial.MWU.withiterations.all <- function() {
 					"zakharov"
 				);
 
+	# The algorithms included in the study...
 	algorithms <- c(
 					"bb",
 					"bba",
@@ -263,6 +269,9 @@ generate.partial.MWU.withiterations.all <- function() {
 					"vngc"
 				);
 
+	# The iterations included in the study.
+	# This is used as an alternative to re-running each simulation with several different values as the stopping condition i.t.o how many iterations to run.
+	# Instead, the simulations are run for the maximum number of iterations needed as a stopping condition, and subsets of the data (up to different numbers of iterations) are used to calculated the DRoC on.
 	iterations <- c(
 					500, 
 					1000, 
@@ -270,20 +279,32 @@ generate.partial.MWU.withiterations.all <- function() {
 					10000
 				);
 
+	# In case parallel processing resources are needed (currently they're not)
 	library(doParallel);
 	registerDoParallel();
 
+	# Count how many runs are required to calculate all DRoC values
 	a1 <- 1;
 	count <- 0;
-
-	for (i in iterations)
+	for (i in 1:length(iterations))
 		for (f in 1:length(functions))
 			for (a1 in 1:(length(algorithms)))
-				count <- count + 1;
+				if (!file.exists(paste(	"mwu-partial/", # Don't re-do anything
+										algorithms[a1], 
+										".",
+										functions[f], 
+										".",
+										iterations[i],
+										".partial.txt",
+										sep="")))
+					count <- count + 1;
 
 	totalRuns <- count;
 	print(paste("Total runs required: ", totalRuns));
 
+
+	# MAIN LOOP:
+	# Start looping through every simulation/iteration
 	a1 <- 1;
 	count <- 1;
 
@@ -292,11 +313,13 @@ generate.partial.MWU.withiterations.all <- function() {
 			for (f in 1:length(functions)) {
 				for (a1 in 1:(length(algorithms))) {
 				#foreach (a1 = 1:(length(algorithms))) %dopar% {
-					if (!file.exists(paste("mwu-partial/", 					 algorithms[a1], ".", functions[f], ".", iterations[i], ".partial.txt", sep=""))) {
-						print(paste("[", count, "/", totalRuns, "]  Doing ", algorithms[a1], ".", functions[f], ".", iterations[i], ".partial.txt", sep=""));
+					if (!file.exists(paste("mwu-partial/", 					 algorithms[a1], ".", functions[f], ".", iterations[i], ".partial.txt", sep=""))) { # Don't re-do anything
+						cat(paste("[", count, "/", totalRuns, "]  Doing ", algorithms[a1], ".", functions[f], ".", iterations[i], ".partial.txt", sep=""));
 						count <- count + 1;
-						alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".25.div", sep=''), quote="\"");
-						generate.partial.MWU.withiterations.sequential(alg1.data, algorithms[a1], functions[f], iterations[i]);
+						alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".25.div", sep=''), quote="\""); # Read the data
+						generate.partial.MWU.withiterations.sequential(alg1.data, algorithms[a1], functions[f], iterations[i]); # Call this function to actually process the data
+						# Note: currently, the parallel version doesn't produce the correct output.
+						# Fixing it might speed up processing considerably
 					}
 				}
 			}
@@ -306,7 +329,9 @@ generate.partial.MWU.withiterations.all <- function() {
 	print(ptime);
 }
 
-generate.partial.MWU.withiterations <- function (alg1.data, alg1.name, fun.name, iterations) {
+# This function should do the same as its sequential version, but in parallel
+# Currently, the output is wrong.
+generate.partial.MWU.withiterations.parallel <- function (alg1.data, alg1.name, fun.name, iterations) {
 	result.df <- data.frame ( sl1=rep(NA, 30), lab=rep("", 30), stringsAsFactors=FALSE);
 	ptime <- system.time({
 		result.df <- foreach (i = 1:30) %dopar% {
@@ -339,22 +364,29 @@ generate.partial.MWU.withiterations <- function (alg1.data, alg1.name, fun.name,
 				);
 }
 
+
+# Generates ``partial MWU data''
+# What this actually means is that the function calculated the DRoC on the data given, and writes it to a file in a format that can be used by the MWU scripts.
+# (A MWU comparison needs a pair of these resultant files concatenated together)
 generate.partial.MWU.withiterations.sequential <- function (alg1.data, alg1.name, fun.name, iterations) {
 	result.df <- data.frame ( sl1=rep(NA, 30), lab=rep("", 30), stringsAsFactors=FALSE);
-	ptime <- system.time({
+	#ptime <- system.time({
 		foreach (i = 1:30) %do% {
+			cat(".");
 			result.df[i,] <- c(pwla.slope2(pwla.subset(alg1.data[,i], iterations)), alg1.name)
 		}
-	});
-	print(ptime);
-	print(result.df);
+		print(" done.");
+	#});
+	#print(ptime);
+	#print(result.df);
 	write.table(	result.df,
 					paste(
 						"mwu-partial/", 
 						paste(
 							alg1.name, 
 							fun.name, 
-							"partial", 
+							iterations,
+							"partial",
 							"txt", 
 							sep="."
 						), 
