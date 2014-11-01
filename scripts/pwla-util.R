@@ -256,6 +256,10 @@ generate.partial.MWU.withiterations.all <- function() {
 					"zakharov"
 				);
 
+	# Functions that have their dimensions fixed at 2
+	# (This overrides the previous definition; commenting it out reverts to previous definition)
+	#functions <- c("goldsteinprice", "sixhump");
+
 	# The algorithms included in the study...
 	algorithms <- c(
 					"bb",
@@ -275,7 +279,7 @@ generate.partial.MWU.withiterations.all <- function() {
 	iterations <- c(
 					500, 
 					1000, 
-					5000, 
+					#5000, 
 					10000
 				);
 
@@ -315,8 +319,10 @@ generate.partial.MWU.withiterations.all <- function() {
 				#foreach (a1 = 1:(length(algorithms))) %dopar% {
 					if (!file.exists(paste("mwu-partial/", 					 algorithms[a1], ".", functions[f], ".", iterations[i], ".partial.txt", sep=""))) { # Don't re-do anything
 						cat(paste("[", count, "/", totalRuns, "]  Doing ", algorithms[a1], ".", functions[f], ".", iterations[i], ".partial.txt", sep=""));
+
 						count <- count + 1;
 						alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".25.div", sep=''), quote="\""); # Read the data
+						#alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".2.div", sep=''), quote="\""); # For functions with fixed 2 dimensions
 						generate.partial.MWU.withiterations.sequential(alg1.data, algorithms[a1], functions[f], iterations[i]); # Call this function to actually process the data
 						# Note: currently, the parallel version doesn't produce the correct output.
 						# Fixing it might speed up processing considerably
@@ -328,6 +334,46 @@ generate.partial.MWU.withiterations.all <- function() {
 	
 	print(ptime);
 }
+
+
+# Generates ``partial MWU data''
+# What this actually means is that the function calculated the DRoC on the data given, and writes it to a file in a format that can be used by the MWU scripts.
+# (A MWU comparison needs a pair of these resultant files concatenated together)
+generate.partial.MWU.withiterations.sequential <- function (alg1.data, alg1.name, fun.name, iterations) {
+	result.df <- data.frame ( sl1=rep(NA, 30), lab=rep("", 30), stringsAsFactors=FALSE);
+	#ptime <- system.time({
+		start.time <- proc.time();
+		foreach (i = 1:30) %do% {
+			cat(".");
+			result.df[i,] <- c(pwla.slope2(pwla.subset(alg1.data[,i], iterations)), alg1.name)
+		}
+		elapsed.time <- proc.time() - start.time;
+		elapsed.time <- elapsed.time[3];
+		elapsed.time <- unname(elapsed.time);
+		print(paste(" Done. Elapsed: ", elapsed.time, ". ", sep=""));
+	#});
+	#print(ptime);
+	#print(result.df);
+	write.table(	result.df,
+					paste(
+						"mwu-partial/", 
+						paste(
+							alg1.name, 
+							fun.name, 
+							iterations,
+							"partial",
+							"txt", 
+							sep="."
+						), 
+						sep=""
+					),
+					row.names=FALSE,
+					col.names=FALSE,
+					quote=FALSE,
+					sep=" "
+				);
+}
+
 
 # This function should do the same as its sequential version, but in parallel
 # Currently, the output is wrong.
@@ -352,41 +398,6 @@ generate.partial.MWU.withiterations.parallel <- function (alg1.data, alg1.name, 
 							fun.name, 
 							iterations,
 							"partial", 
-							"txt", 
-							sep="."
-						), 
-						sep=""
-					),
-					row.names=FALSE,
-					col.names=FALSE,
-					quote=FALSE,
-					sep=" "
-				);
-}
-
-
-# Generates ``partial MWU data''
-# What this actually means is that the function calculated the DRoC on the data given, and writes it to a file in a format that can be used by the MWU scripts.
-# (A MWU comparison needs a pair of these resultant files concatenated together)
-generate.partial.MWU.withiterations.sequential <- function (alg1.data, alg1.name, fun.name, iterations) {
-	result.df <- data.frame ( sl1=rep(NA, 30), lab=rep("", 30), stringsAsFactors=FALSE);
-	#ptime <- system.time({
-		foreach (i = 1:30) %do% {
-			cat(".");
-			result.df[i,] <- c(pwla.slope2(pwla.subset(alg1.data[,i], iterations)), alg1.name)
-		}
-		print(" done.");
-	#});
-	#print(ptime);
-	#print(result.df);
-	write.table(	result.df,
-					paste(
-						"mwu-partial/", 
-						paste(
-							alg1.name, 
-							fun.name, 
-							iterations,
-							"partial",
 							"txt", 
 							sep="."
 						), 
