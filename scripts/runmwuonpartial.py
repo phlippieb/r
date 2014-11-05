@@ -22,10 +22,20 @@ functions = [	"ackley",
 				"goldsteinprice", 
 				"sixhump"
 			]
-algorithms = "gbest", "lbest", "vn", "spso", "gbestgc", "lbestgc", "vngc", "bb", "bba"
+algorithms = [
+				"bb",
+				"bba",
+				"gbest",
+				"gbestgc",
+				"lbest",
+				"lbestgc",
+				"spso",
+				"vn",
+				"vngc"
+			]
 iterations = [500, 1000, 5000, 10000]
 
-for a1 in range(1, len(algorithms)):
+for a1 in range(0, len(algorithms)):
 	for a2 in range(a1+1, len(algorithms)):
 		for f in range(0, len(functions)):
 			for i in range(0, len(iterations)):
