@@ -279,7 +279,7 @@ generate.partial.MWU.withiterations.all <- function() {
 	iterations <- c(
 					500, 
 					1000, 
-					#5000, 
+					5000, 
 					10000
 				);
 
