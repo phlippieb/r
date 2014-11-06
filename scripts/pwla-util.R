@@ -346,7 +346,7 @@ generate.partial.MWU.withiterations.sequential <- function (alg1.data, alg1.name
 		start.time <- proc.time();
 		foreach (i = 1:30) %do% {
 			cat(".");
-			result.df[i,] <- c(pwla.slope2(pwla.subset(alg1.data[,i], iterations)), alg1.name)
+			result.df[i,] <- c(pwla.slope1(pwla.subset(alg1.data[,i], iterations)), alg1.name)
 		}
 		elapsed.time <- proc.time() - start.time;
 		elapsed.time <- elapsed.time[3];
@@ -384,7 +384,7 @@ generate.partial.MWU.withiterations.parallel <- function (alg1.data, alg1.name, 
 		start.time <- proc.time();
 		xx <- foreach (i = 1:30) %dopar% {
 			cat(".");
-			( c(pwla.slope2(pwla.subset(alg1.data[,i], iterations)), alg1.name) );
+			( c(pwla.slope1(pwla.subset(alg1.data[,i], iterations)), alg1.name) );
 		}
 		for (i in 1:30) {
 			result.df[i,] <- xx[[i]];
