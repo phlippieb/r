@@ -323,7 +323,8 @@ generate.partial.MWU.withiterations.all <- function() {
 						count <- count + 1;
 						alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".25.div", sep=''), quote="\""); # Read the data
 						#alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".2.div", sep=''), quote="\""); # For functions with fixed 2 dimensions
-						generate.partial.MWU.withiterations.sequential(alg1.data, algorithms[a1], functions[f], iterations[i]); # Call this function to actually process the data
+						#generate.partial.MWU.withiterations.sequential(alg1.data, algorithms[a1], functions[f], iterations[i]); # Call this function to actually process the data
+						generate.partial.MWU.withiterations.parallel(alg1.data, algorithms[a1], functions[f], iterations[i]);
 						# Note: currently, the parallel version doesn't produce the correct output.
 						# Fixing it might speed up processing considerably
 					}
@@ -332,7 +333,7 @@ generate.partial.MWU.withiterations.all <- function() {
 		}
 	#})
 	
-	print(ptime);
+	#print(ptime);
 }
 
 
@@ -350,7 +351,7 @@ generate.partial.MWU.withiterations.sequential <- function (alg1.data, alg1.name
 		elapsed.time <- proc.time() - start.time;
 		elapsed.time <- elapsed.time[3];
 		elapsed.time <- unname(elapsed.time);
-		print(paste(" Done. Elapsed: ", elapsed.time, ". ", sep=""));
+		print(paste(" Done. Elapsed: ", round(elapsed.time, 0), ". ", sep=""));
 	#});
 	#print(ptime);
 	#print(result.df);
@@ -379,17 +380,22 @@ generate.partial.MWU.withiterations.sequential <- function (alg1.data, alg1.name
 # Currently, the output is wrong.
 generate.partial.MWU.withiterations.parallel <- function (alg1.data, alg1.name, fun.name, iterations) {
 	result.df <- data.frame ( sl1=rep(NA, 30), lab=rep("", 30), stringsAsFactors=FALSE);
-	ptime <- system.time({
-		result.df <- foreach (i = 1:30) %dopar% {
-			#print(paste("sample:", i, sep=" "));
-			#result.df[i,] <- c(pwla.slope2(pwla(alg1.data[,i])), alg1.name)
-			row <- c(pwla.slope2(pwla.subset(alg1.data[,i], iterations)), alg1.name)
-			print(paste("Sample", i, ":", row));
-			return (unlist(row));
+	#ptime <- system.time({
+		start.time <- proc.time();
+		xx <- foreach (i = 1:30) %dopar% {
+			cat(".");
+			( c(pwla.slope2(pwla.subset(alg1.data[,i], iterations)), alg1.name) );
 		}
-	});
-	print(ptime);
-	print(result.df[1]);
+		for (i in 1:30) {
+			result.df[i,] <- xx[[i]];
+		}
+		elapsed.time <- proc.time() - start.time;
+		elapsed.time <- elapsed.time[3];
+		elapsed.time <- unname(elapsed.time);
+		print(paste(" Done. Elapsed: ", round(elapsed.time, 0), "s", sep=""));
+	#});
+	#print(ptime);
+	#print(result.df);
 	write.table(	result.df,
 					paste(
 						"mwu-partial/", 
@@ -397,7 +403,7 @@ generate.partial.MWU.withiterations.parallel <- function (alg1.data, alg1.name, 
 							alg1.name, 
 							fun.name, 
 							iterations,
-							"partial", 
+							"partial",
 							"txt", 
 							sep="."
 						), 
