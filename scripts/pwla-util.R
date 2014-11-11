@@ -285,7 +285,8 @@ generate.partial.MWU.withiterations.all <- function() {
 
 	# In case parallel processing resources are needed (currently they're not)
 	library(doParallel);
-	registerDoParallel(cores=3);
+	numCores <- as.numeric(readline("How many cores to use? "));
+	registerDoParallel(cores=numCores);
 
 	# Count how many runs are required to calculate all DRoC values
 	a1 <- 1;
