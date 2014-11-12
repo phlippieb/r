@@ -258,7 +258,7 @@ generate.partial.MWU.withiterations.all <- function() {
 
 	# Functions that have their dimensions fixed at 2
 	# (This overrides the previous definition; commenting it out reverts to previous definition)
-	functions <- c("goldsteinprice", "sixhump");
+	#functions <- c("goldsteinprice", "sixhump");
 
 	# The algorithms included in the study...
 	algorithms <- c(
@@ -323,8 +323,8 @@ generate.partial.MWU.withiterations.all <- function() {
 						cat(paste("[", count, "/", totalRuns, "]  Doing ", algorithms[a1], ".", functions[f], ".", iterations[i], ".partial.txt", sep=""));
 
 						count <- count + 1;
-						#alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".25.div", sep=''), quote="\""); # Read the data
-						alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".2.div", sep=''), quote="\""); # For functions with fixed 2 dimensions
+						alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".25.div", sep=''), quote="\""); # Read the data
+						#alg1.data <- read.table (paste("rdata/", algorithms[a1], ".25.", functions[f], ".2.div", sep=''), quote="\""); # For functions with fixed 2 dimensions
 						#generate.partial.MWU.withiterations.sequential(alg1.data, algorithms[a1], functions[f], iterations[i]); # Call this function to actually process the data
 						generate.partial.MWU.withiterations.parallel(alg1.data, algorithms[a1], functions[f], iterations[i]);
 						# Note: currently, the parallel version doesn't produce the correct output.
