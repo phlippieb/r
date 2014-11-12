@@ -33,7 +33,9 @@ algorithms = [
 				"vn",
 				"vngc"
 			]
-iterations = [500, 1000, 5000, 10000]
+#iterations = [500, 1000, 5000, 10000]
+iterations = [2000]
+
 
 for a1 in range(0, len(algorithms)):
 	for a2 in range(a1+1, len(algorithms)):

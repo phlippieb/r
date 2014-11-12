@@ -98,7 +98,7 @@ rankAll <- function() {
    # Function is identical to the one on the sl2 branch, with only iterations added.
 
    # For now, let's change this manually between each execution.
-   iterations = 10000;
+   iterations = 2000;
 
    functions <- c(   "ackley",
                      "alpine",
@@ -198,7 +198,7 @@ rankAll <- function() {
       result.df[f,] <- result.function;
    }
    write.table( result.df,
-      paste("mwu-results.", iterations, ".txt", sep=""),
+      paste("mwu-results/mwu-results.", iterations, ".txt", sep=""),
       row.names=TRUE,
       col.names=TRUE,
       quote=FALSE,
