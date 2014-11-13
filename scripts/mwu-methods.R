@@ -98,9 +98,29 @@ rankAll <- function() {
    # Function is identical to the one on the sl2 branch, with only iterations added.
 
    # For now, let's change this manually between each execution.
-   iterations = 2000;
+   iterations.feed <-   c(
+                           "500",
+                           "1000",
+                           "2000",
+                           "5000",
+                           "10000"
+                        );
 
-   functions <- c(   "ackley",
+   iterations <- c();
+   # Note: no idea why it needs to be 2:, but it does
+   for (i in 2:length(iterations.feed)-1) {
+      iterations <- c(
+                        iterations,
+                        paste(
+                           iterations.feed[i],
+                           iterations.feed[i+1],
+                           sep="."
+                        )
+                  );
+   }
+
+   functions <- c(   
+                     "ackley",
                      "alpine",
                      "eggholder",
                      "elliptic",
@@ -120,9 +140,10 @@ rankAll <- function() {
                      "spherical",
                      "step",
                      "zakharov"
-            );
+                  );
 
-   algorithms <- c(  "bb",
+   algorithms <- c(  
+                     "bb",
                      "bba",
                      "gbest",
                      "gbestgc",
@@ -131,79 +152,57 @@ rankAll <- function() {
                      "spso",
                      "vn",
                      "vngc"
-            );
-   a1 <- 1;
-   count <- 1;
-   algcount <- 1;
-   result.df <- data.frame (  a1=rep("", length(functions)),
-                              a2=rep("", length(functions)),
-                              a3=rep("", length(functions)),
-                              a4=rep("", length(functions)),
-                              a5=rep("", length(functions)),
-                              a6=rep("", length(functions)),
-                              a7=rep("", length(functions)),
-                              a8=rep("", length(functions)),
-                              a9=rep("", length(functions)),
-                              a10=rep("", length(functions)),
-                              a11=rep("", length(functions)),
-                              a12=rep("", length(functions)),
-                              a13=rep("", length(functions)),
-                              a14=rep("", length(functions)),
-                              a15=rep("", length(functions)),
-                              a16=rep("", length(functions)),
-                              a17=rep("", length(functions)),
-                              a18=rep("", length(functions)),
-                              a19=rep("", length(functions)),
-                              a20=rep("", length(functions)),
-                              a21=rep("", length(functions)),
-                              a22=rep("", length(functions)),
-                              a23=rep("", length(functions)),
-                              a24=rep("", length(functions)),
-                              a25=rep("", length(functions)),
-                              a26=rep("", length(functions)),
-                              a27=rep("", length(functions)),
-                              a28=rep("", length(functions)),
-                              a29=rep("", length(functions)),
-                              a30=rep("", length(functions)),
-                              a31=rep("", length(functions)),
-                              a32=rep("", length(functions)),
-                              a33=rep("", length(functions)),
-                              a34=rep("", length(functions)),
-                              a35=rep("", length(functions)),
-                              a36=rep("", length(functions)),
-                              stringsAsFactors=FALSE
-                           );
+                  );
 
-   result.function <- c();
-   for (f in 1:length(functions)) {
-      result.function <- c();
-      rownames(result.df)[f] <- functions[f];
-      algcount <- 1;
-      for (a1 in 1:(length(algorithms)-1)) {
-         for (a2 in (a1+1):length(algorithms)) {
-            print(paste(count, " doing ", algorithms[a1], ".", algorithms[a2], ".", functions[f], ".", iterations, ".txt", sep=""));
-            count <- count + 1;
-            rankList <- rank(paste("./mwu/",
-               algorithms[a1], ".",
-               algorithms[a2], ".",
-               functions[f], ".",
-               iterations, ".txt",
-               sep=""
-               ));
-            colnames(result.df)[algcount] <- paste(algorithms[a1], algorithms[a2], sep=".");
-            algcount <- algcount +1;
-            result.function <- c(result.function, unlist(unname(rankList[2])))
-         }
+   functions.algorithms <- c();
+   for (f in functions) {
+      for (a in algorithms) {
+         functions.algorithms <- c( 
+                                    functions.algorithms,
+                                    paste(a, f, sep=".")
+                                 );
       }
-      result.df[f,] <- result.function;
    }
-   write.table( result.df,
-      paste("mwu-results/mwu-results.", iterations, ".txt", sep=""),
-      row.names=TRUE,
-      col.names=TRUE,
-      quote=FALSE,
-      sep=" "
-      );
+
+   result.m <-   matrix(
+                     nrow=length(functions.algorithms),
+                     ncol=length(iterations)
+                  );
+
+   
+   for (fa in 1:length(functions.algorithms)) {
+      print(paste("Doing row ", fa, " (", functions.algorithms[fa], ")", sep=""));
+      row <- c();
+      for (i in 1:length(iterations)) {
+         rankresult <-  rank(paste(
+                           "./mwu/",
+                           functions.algorithms[fa],
+                           ".",
+                           iterations[i],
+                           ".txt",
+                           sep=""
+                        ));
+         row <-   c(  
+                     row,
+                     unlist(unname(rankresult[2]))
+                  );
+      }
+      result.m[fa,] <- row;
+
+   }
+
+   rownames(result.m) <- functions.algorithms;
+   colnames(result.m) <- iterations;
+   
+   write.table( 
+                  result.m,
+                  file="mwu-results/mwu-results.txt",
+                  row.names=TRUE,
+                  col.names=TRUE,
+                  quote=FALSE,
+                  sep=","
+   );
+   return (result.m);
 }
 
 rank <- function(source) {
