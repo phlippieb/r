@@ -277,11 +277,11 @@ generate.partial.MWU.withiterations.all <- function() {
 	# This is used as an alternative to re-running each simulation with several different values as the stopping condition i.t.o how many iterations to run.
 	# Instead, the simulations are run for the maximum number of iterations needed as a stopping condition, and subsets of the data (up to different numbers of iterations) are used to calculated the DRoC on.
 	iterations <- c(
-					#500, 
-					#1000,
-					#5000, 
-					#10000
-					2000
+					500, 
+					1000,
+					2000,
+					5000, 
+					10000
 				);
 
 	# In case parallel processing resources are needed (currently they're not)
