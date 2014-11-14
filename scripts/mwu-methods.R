@@ -194,13 +194,13 @@ rankAll <- function() {
    rownames(result.m) <- functions.algorithms;
    colnames(result.m) <- iterations;
    
-   write.table( 
+   write.csv( 
                   result.m,
                   file="mwu-results/mwu-results.txt",
-                  row.names=TRUE,
-                  col.names=TRUE,
-                  quote=FALSE,
-                  sep=","
+                  #row.names=TRUE,
+                  #col.names=TRUE,
+                  quote=FALSE
+                  #sep=","
    );
    return (result.m);
 }
