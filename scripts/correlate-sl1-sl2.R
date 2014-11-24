@@ -114,7 +114,8 @@ allCorrelations <- function(method) {
 # data: the result of an allCorrelations call
 # NB: the function only works on one iteration cap at a time. Edit the allIterations value before calling allCorrelations.
 convertToMatrix <- function(data) {
-	result <- matrix(data, nrows=length(allFunctions), byrow=TRUE);
+	data <- unlist(unname(data));
+	result <- matrix(data, nrow=length(allFunctions), byrow=TRUE);
 	rownames(result) <- allFunctions;
 	colnames(result) <- allAlgorithms;
 	return (result);
