@@ -100,12 +100,12 @@ rankAll <- function() {
    # For now, let's change this manually between each execution.
    iterations.feed <-   c(
                            "100",
-                           "200"
-                           #"500",
-                           #"1000",
-                           #"2000",
-                           #"5000",
-                           #"10000"
+                           "200",
+                           "500",
+                           "1000",
+                           "2000",
+                           "5000",
+                           "10000"
                         );
 
    iterations <- c();
