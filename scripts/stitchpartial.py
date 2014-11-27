@@ -33,8 +33,8 @@ algorithms = [
 				"vn",
 				"vngc"
 			]
-iterations = [500, 1000, 2000, 5000, 10000]
-#iterations = [2000]
+#iterations = [500, 1000, 2000, 5000, 10000]
+iterations = [100,200]
 
 
 for a in range(0, len(algorithms)):
