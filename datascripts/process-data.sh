@@ -5,7 +5,7 @@
 #     (not from cilib/rdata/scripts)
 #
 
-read -p "You should be calling this from the parent directory of datascripts. Proceed? " PROCEED
+read -p "You should be calling this from the parent directory of datascripts. Proceed (y)? " PROCEED
 if [ "$PROCEED" != "y" ]; then
 	exit;
 fi
@@ -22,11 +22,17 @@ cp datascripts/*.sh tmp
 cd tmp
 echo "running scripts on data:"
 echo "   removing hashed-out lines..."
-./remove-hashes.sh
+#./remove-hashes.sh
+. remove-hashes.sh
 echo "   removing iteration numbers from data..."
-./remove-iteration-numbers.sh
-echo "   splitting fitness and diversity into new files..."
-./split-fitness-and-diversity.sh
+#./remove-iteration-numbers.sh
+. remove-iteration-numbers.sh
+#echo "   splitting fitness and diversity into new files..."
+#./split-fitness-and-diversity.sh
+echo "   NOT splitting fitness and diversity - no fitness data recorded"
+echo "   INSTEAD renaming all to .div.rdata..."
+#./rename-as-div-rdata.sh
+. rename-as-div-rdata.sh
 echo "removing old files"...
 rm *.txt
 cd ..
