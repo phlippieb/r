@@ -61,7 +61,7 @@ for a in range(0, len(algorithms)):
 				print "   dimensions: \"%s\"," 	%(dimensions[d])
 				# read measurement data:
 				print "   measurements: ["
-				divfilename = "rdata/" + algorithms[a] + "." + str(populations[p]) + "." + functions[f] + "." + str(dimensions[d]) + ".1.div"
+				divfilename = "rdata/" + algorithms[a] + "." + str(populations[p]) + "." + functions[f] + "." + str(dimensions[d]) + ".div"
 				f = open(divfilename)
 				f_byrow = []
 				for line in f:
