@@ -27,12 +27,8 @@ echo "   removing hashed-out lines..."
 echo "   removing iteration numbers from data..."
 #./remove-iteration-numbers.sh
 . remove-iteration-numbers.sh
-#echo "   splitting fitness and diversity into new files..."
-#./split-fitness-and-diversity.sh
-echo "   NOT splitting fitness and diversity - no fitness data recorded"
-echo "   INSTEAD renaming all to .div.rdata..."
-#./rename-as-div-rdata.sh
-. rename-as-div-rdata.sh
+echo "   splitting fitness and diversity into new files..."
+. split-fitness-and-diversity.sh
 echo "removing old files"...
 rm *.txt
 cd ..
