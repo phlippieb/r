@@ -1,8 +1,5 @@
 rdata
 *.csv
 db
-.RData
-.Rhistory
 **/.fuse_hidden*
 .R*
-**/.fusehidden*
