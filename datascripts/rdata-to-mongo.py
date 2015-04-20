@@ -2,14 +2,14 @@
 
 algorithms = [
 	"bb",
-	"bba",
-	"gbest",
-	"gbestgc",
-	"lbest",
-	"lbestgc",
-	"spso",
-	"vn",
-	"vngc"
+#	"bba",
+#	"gbest",
+#	"gbestgc",
+#	"lbest",
+#	"lbestgc",
+#	"spso",
+#	"vn",
+#	"vngc"
 ]
 
 
@@ -56,9 +56,9 @@ for a in range(0, len(algorithms)):
 
 				# diversity data:
 				divfilename = "rdata/" + algorithms[a] + "." + str(populations[p]) + "." + functions[f] + "." + str(dimensions[d]) + ".div"
-				f = open(divfilename)
+				fi = open(divfilename)
 				f_byrow = []
-				for line in f:
+				for line in fi:
 					f_byrow.append(line.split())
 				f_bycol = zip(*f_byrow)
 				for sample in range(0, len(f_bycol)):
@@ -71,14 +71,14 @@ for a in range(0, len(algorithms)):
 						print "   sample: \"%s\"," 		%(sample)
 						print "   iteration: \"%s\"," 	%(iteration)
 						print "   diversity: \"%s\"" 	%(f_bycol[sample][iteration])
-				print "})"
-				f.close()
+                				print "})"
+				fi.close()
 
 				# fitness data:
 				fitfilename = "rdata/" + algorithms[a] + "." + str(populations[p]) + "." + functions[f] + "." + str(dimensions[d]) + ".fit"
-				f = open(fitfilename)
+				fi = open(fitfilename)
 				f_byrow = []
-				for line in f:
+				for line in fi:
 					f_byrow.append(line.split())
 				f_bycol = zip(*f_byrow)
 				for sample in range(0, len(f_bycol)):
@@ -91,6 +91,6 @@ for a in range(0, len(algorithms)):
 						print "   sample: \"%s\"," 		%(sample)
 						print "   iteration: \"%s\"," 	%(iteration)
 						print "   fitness: \"%s\"" 	%(f_bycol[sample][iteration])
-				print "})"
-				print ""
-				f.close()
+				                print "})"
+				fi.close()
+

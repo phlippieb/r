@@ -14,11 +14,22 @@
 	#				p 	<- pwla(rowMeans(data))
 	# returns: 	a dataframe containing "x" & "y" points belonging to the pwla,
 	#			cleaned so that x starts at 0
-	pwla <- function (d) {
+	pwla <- function (d, resolution=1) {
+		pick <- seq(1, length(d), resolution);
+		d <- d[pick]
 		b <- bsr2(1:length(d), d, length(d));
 		bdf <- data.frame(x=b$fit$model[,2], y=predict(b$fit));
 		bdf1 <- bdf[!(bdf$x<0),]
 		return (bdf1);
+	}
+
+	# calculates a 2-pwla (like above), but on a subset of iterations of d.
+	# param d:	data to calculate pwla for; same as above.
+	# param i:	the bounding iteration number to go up to.
+	#			the calculation will be done on all data from iteration 1 to i inclusive.
+	# returns:	same as above.
+	pwla.subset <- function(d, i, resolution=1) {
+		pwla(d[1:i], resolution);
 	}
 
 	# calculates the first slope given a pwla dataframe.
