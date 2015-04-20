@@ -45,11 +45,11 @@ droc.all.resolutions <- function()  {
 
 	# Functions that have their dimensions fixed at 2
 	# (This overrides the previous definition; commenting it out reverts to previous definition)
-	functions <- c("goldsteinprice", "sixhump");
+	#functions <- c("goldsteinprice", "sixhump");
 
 	# For easily switching between different fixed dimensions
 	d <- 25;
-	d <- 2; # [un]comment to toggle
+	#d <- 2; # [un]comment to toggle
 
 	# The algorithms included in the study...
 	algorithms <- c(
@@ -96,12 +96,12 @@ droc.all.resolutions <- function()  {
 		for (a in 1:(length(algorithms)))
 			for (r in 1:length(resolutions))
 				for (i in 1:length(iterations))
-					if (!file.exists(paste(	"drocdata/", # Don't re-do anything
-							algorithms[a], ".", 
-							functions[f], ".", 
-							resolutions[r], "r.", 
-							iterations[i], "i",
-							".droc.txt", sep="")))
+					#if (!file.exists(paste(	"drocdata/", # Don't re-do anything
+					#		algorithms[a], ".", 
+					#		functions[f], ".", 
+					#		resolutions[r], "r.", 
+					#		iterations[i], "i",
+					#		".droc.txt", sep="")))
 						count <- count + 1;
 
 	totalRuns <- count;
@@ -117,12 +117,12 @@ droc.all.resolutions <- function()  {
 			for (f in 1:length(functions)) {
 				for (a in 1:(length(algorithms))) {
 				#foreach (a = 1:(length(algorithms))) %dopar% {
-					if (!file.exists(paste("drocdata/", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i", ".droc.txt", sep=""))) { # Don't re-do anything
+					#if (!file.exists(paste("drocdata/", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i", ".droc.txt", sep=""))) { # Don't re-do anything
 						cat(paste("[", count, "/", totalRuns, "]  Doing ", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i.droc.txt", sep="")); # progress text
 						count <- count + 1; # progress tracking
 						alg.data <- read.table (paste("rdata/", algorithms[a], ".25.", functions[f], ".", d, ".div", sep=''), quote="\""); # get data
 						droc.resolutions(alg.data, algorithms[a], functions[f], resolutions[r], iterations[ii]); # process data and write results
-					}
+					#}
 				}
 			}
 		}
