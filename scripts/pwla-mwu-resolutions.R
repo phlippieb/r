@@ -19,50 +19,53 @@ droc.all.resolutions <- function()  {
 	if(!file.exists("drocdata"))
 		dir.create("drocdata");
 	
+	library(doParallel);
+	numCores <- as.numeric(readline("How many cores to use? "));
+	registerDoParallel(cores=numCores);
 
+	# initialize total runs needed
+	totalRuns = 0;
+	
 	# Define the functions that we want to use
-	# NB: for now, I'm too lazy to create a separate way deal with fixed-dimension functions, so it has to be manually swapped out
-	functions <- c(
-					"ackley",
-					"alpine",
-					"eggholder",
-					"elliptic",
-					"griewank",
-					"levy",
-					"michalewicz",
-					"quadric",
-					"quartic",
-					"rastrigin",
-					"rosenbrock",
-					"salomon",
-					"schwefel1_2",
-					"schwefel2_22",
-					"schwefel2_26",
-					"spherical",
-					"step",
-					"zakharov"
-				);
+	# 1: the variable-dimension functions
+	functions1 <- c(
+		"ackley",
+		"alpine",
+		"eggholder",
+		"elliptic",
+		"griewank",
+		"levy",
+		"michalewicz",
+		"quadric",
+		"quartic",
+		"rastrigin",
+		"rosenbrock",
+		"salomon",
+		"schwefel1_2",
+		"schwefel2_22",
+		"schwefel2_26",
+		"spherical",
+		"step",
+		"zakharov"
+	);
+	d1 <- 25; # the dimensions of the functions (currently fixed at 25)
 
-	# Functions that have their dimensions fixed at 2
-	# (This overrides the previous definition; commenting it out reverts to previous definition)
-	#functions <- c("goldsteinprice", "sixhump");
+	# 2: the functions with dimensions inherently fixed at 2
+	functions2 <- c("goldsteinprice", "sixhump");
+	d2 <- 2; # [un]comment to toggle
 
-	# For easily switching between different fixed dimensions
-	d <- 25;
-	#d <- 2; # [un]comment to toggle
-
-	# The algorithms included in the study...
+	# The algorithms included in the study:
 	algorithms <- c(
-					"bb",
-					"bba",
-					"gbest",
-					"gbestgc",
-					"lbest",
-					"lbestgc",
-					"spso",
-					"vn",
-					"vngc"
-				);
+		"bb",
+		"bba",
+		"gbest",
+		"gbestgc",
+		"lbest",
+		"lbestgc",
+		"spso",
+		"vn",
+		"vngc"
+	);
 
 	# The resolutions to compare
 	# This is used as an alternative to re-running each simulation at several different resolutions (i.e. how many of the data points to take into account).
@@ -71,16 +74,19 @@ droc.all.resolutions <- function()  {
 
 	# We still need to limit  this, so.... we could actually merge this file with -iterations? Not sure what to call it.
 	iterations <- c(
-					2000
-				);
+		2000
+	);
+	
 
-	# In case parallel processing resources are needed
-	library(doParallel);
-	numCores <- as.numeric(readline("How many cores to use? "));
-	#numCores <- 3;
-	registerDoParallel(cores=numCores);
+	totalRuns = totalRuns + droc.all.resolutions.getTotalRuns(algorithms, functions1, iterations, resolutions);
+	totalRuns = totalRuns + droc.all.resolutions.getTotalRuns(algorithms, functions2, iterations, resolutions);
 
-	# Count how many runs are required to calculate all DRoC values
+	droc.all.resolutions.run(algorithms, functions1, d1, iterations, resolutions, totalRuns);
+	droc.all.resolutions.run(algorithms, functions2, d2, iterations, resolutions, totalRuns);
+}
+
+# Count how many runs are required to calculate all DRoC values
+droc.all.resolutions.getTotalRuns <- function (algorithms, functions, iterations, resolutions) {
 	count <- 0;
 	for (f in 1:length(functions))
 		for (a in 1:(length(algorithms)))
@@ -95,23 +101,24 @@ droc.all.resolutions <- function()  {
 						count <- count + 1;
 
 	totalRuns <- count;
-	print(paste("Total runs required: ", totalRuns));
+	return (totalRuns);
+}
 
+droc.all.resolutions.run <- function(algorithms, functions, d, iterations, resolutions, totalRuns) {
 
 	# MAIN LOOP:
 	# Start looping through every simulation/resolutions
 	a <- 1;
 	count <- 1;
 	for (r in 1:length(resolutions)) {
-		for (ii in 1:length(iterations)) {
+		for (i in 1:length(iterations)) {
 			for (f in 1:length(functions)) {
 				for (a in 1:(length(algorithms))) {
-				#foreach (a = 1:(length(algorithms))) %dopar% {
 					#if (!file.exists(paste("drocdata/", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i", ".droc.txt", sep=""))) { # Don't re-do anything
-						cat(paste("[", count, "/", totalRuns, "]  Doing ", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i.droc.txt", sep="")); # progress text
+						cat(paste("[", count, "/", totalRuns, "] ", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i.droc.txt", sep="")); # progress text
 						count <- count + 1; # progress tracking
 						alg.data <- read.table (paste("rdata/", algorithms[a], ".25.", functions[f], ".", d, ".div", sep=''), quote="\""); # get data
-						droc.resolutions(alg.data, algorithms[a], functions[f], resolutions[r], iterations[ii]); # process data and write results
+						droc.resolutions(alg.data, algorithms[a], functions[f], resolutions[r], iterations[i]); # process data and write results
 					#}
 				}
 			}
