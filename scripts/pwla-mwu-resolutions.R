@@ -68,16 +68,16 @@ droc.all.resolutions <- function()  {
 	# This is used as an alternative to re-running each simulation at several different resolutions (i.e. how many of the data points to take into account).
 	# Instead, a resolution of 1 is used to produce data, of which data is selected at lower resolutions by using the parameterised version of pwla(d, resolution).
 	resolutions <- c(
-					1,
-					2,
-					3,
-					4,
-					5,
-					6,
-					7,
-					8,
-					9,
-					10
+					101,
+					102,
+					103,
+					104,
+					105,
+					106,
+					107,
+					108,
+					109,
+					110
 				);
 
 	# We still need to limit  this, so.... we could actually merge this file with -iterations? Not sure what to call it.
@@ -87,7 +87,8 @@ droc.all.resolutions <- function()  {
 
 	# In case parallel processing resources are needed
 	library(doParallel);
-	numCores <- as.numeric(readline("How many cores to use? "));
+	#numCores <- as.numeric(readline("How many cores to use? "));
+	numCores <- 3;
 	registerDoParallel(cores=numCores);
 
 	# Count how many runs are required to calculate all DRoC values
@@ -134,15 +135,15 @@ droc.all.resolutions <- function()  {
 # Calculates the DRoC for the specified simulation (specification includes resolution)
 # and writes results to a file.
 droc.resolutions <- function (alg1.data, alg1.name, fun.name, resolution, iterations) {
-	result.df <- data.frame ( sl1=rep(NA, 30), lab=rep("", 30), stringsAsFactors=FALSE);
-	currentI <- 1;
-	foreach (i = 1:30) %do% {
+	result.multicore <- foreach (i = 1:30) %dopar% {
 		# progress (convince myself that the script is still alive)
 			cat(".");
-		result.df[i,] <- c(pwla.slope1(pwla.subset(alg1.data[,i], iterations, resolution)), alg1.name)
+		c(pwla.slope1(pwla.subset(alg1.data[,i], iterations, resolution)), alg1.name)
 	}
 	cat("\n");
-	write.table(	result.df,
+	result.multicore <- matrix(unname(unlist(result.multicore)), ncol=2, byrow=TRUE);
+	print (result.multicore);
+					result.multicore,
 					paste(
 						"drocdata/", 
 						paste(
