@@ -67,18 +67,7 @@ droc.all.resolutions <- function()  {
 	# The resolutions to compare
 	# This is used as an alternative to re-running each simulation at several different resolutions (i.e. how many of the data points to take into account).
 	# Instead, a resolution of 1 is used to produce data, of which data is selected at lower resolutions by using the parameterised version of pwla(d, resolution).
-	resolutions <- c(
-					101,
-					102,
-					103,
-					104,
-					105,
-					106,
-					107,
-					108,
-					109,
-					110
-				);
+	resolutions <- 100:150;
 
 	# We still need to limit  this, so.... we could actually merge this file with -iterations? Not sure what to call it.
 	iterations <- c(
@@ -87,8 +76,8 @@ droc.all.resolutions <- function()  {
 
 	# In case parallel processing resources are needed
 	library(doParallel);
-	#numCores <- as.numeric(readline("How many cores to use? "));
-	numCores <- 3;
+	numCores <- as.numeric(readline("How many cores to use? "));
+	#numCores <- 3;
 	registerDoParallel(cores=numCores);
 
 	# Count how many runs are required to calculate all DRoC values
@@ -142,7 +131,7 @@ droc.resolutions <- function (alg1.data, alg1.name, fun.name, resolution, iterat
 	}
 	cat("\n");
 	result.multicore <- matrix(unname(unlist(result.multicore)), ncol=2, byrow=TRUE);
-	print (result.multicore);
+	write.table(
 					result.multicore,
 					paste(
 						"drocdata/", 
