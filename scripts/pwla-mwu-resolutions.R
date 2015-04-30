@@ -133,7 +133,7 @@ droc.all.resolutions.run <- function(algorithms, functions, d, iterations, resol
 droc.resolutions <- function (alg1.data, alg1.name, fun.name, resolution, iterations) {
 	result.multicore <- foreach (i = 1:30) %dopar% {
 		# progress (convince myself that the script is still alive)
-			cat(".");
+			#cat(".");
 		c(pwla.slope1(pwla.subset(alg1.data[,i], iterations, resolution)), alg1.name)
 	}
 	cat("\n");
