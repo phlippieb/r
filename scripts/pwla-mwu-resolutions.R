@@ -83,6 +83,8 @@ droc.all.resolutions <- function()  {
 
 	droc.all.resolutions.run(algorithms, functions1, d1, iterations, resolutions, totalRuns);
 	droc.all.resolutions.run(algorithms, functions2, d2, iterations, resolutions, totalRuns);
+
+	cat ("\n");
 }
 
 # Count how many runs are required to calculate all DRoC values
@@ -115,7 +117,7 @@ droc.all.resolutions.run <- function(algorithms, functions, d, iterations, resol
 			for (f in 1:length(functions)) {
 				for (a in 1:(length(algorithms))) {
 					#if (!file.exists(paste("drocdata/", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i", ".droc.txt", sep=""))) { # Don't re-do anything
-						cat(paste("[", count, "/", totalRuns, "] ", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i.droc.txt", sep="")); # progress text
+						cat(paste("\r[", count, "/", totalRuns, "] ", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i.droc.txt", sep="")); # progress text
 						count <- count + 1; # progress tracking
 						alg.data <- read.table (paste("rdata/", algorithms[a], ".25.", functions[f], ".", d, ".div", sep=''), quote="\""); # get data
 						droc.resolutions(alg.data, algorithms[a], functions[f], resolutions[r], iterations[i]); # process data and write results
@@ -133,10 +135,10 @@ droc.all.resolutions.run <- function(algorithms, functions, d, iterations, resol
 droc.resolutions <- function (alg1.data, alg1.name, fun.name, resolution, iterations) {
 	result.multicore <- foreach (i = 1:30) %dopar% {
 		# progress (convince myself that the script is still alive)
-			#cat(".");
+			cat(" ");
 		c(pwla.slope1(pwla.subset(alg1.data[,i], iterations, resolution)), alg1.name)
 	}
-	cat("\n");
+	#cat("\n");
 	result.multicore <- matrix(unname(unlist(result.multicore)), ncol=2, byrow=TRUE);
 	write.table(
 					result.multicore,
