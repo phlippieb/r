@@ -108,7 +108,7 @@ droc.all.resolutions <- function()  {
 				for (a in 1:(length(algorithms))) {
 				#foreach (a = 1:(length(algorithms))) %dopar% {
 					#if (!file.exists(paste("drocdata/", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i", ".droc.txt", sep=""))) { # Don't re-do anything
-						cat(paste("[", count, "/", totalRuns, "]  Doing ", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i.droc.txt", sep="")); # progress text
+						cat(paste("[", count, "/", totalRuns, "] ", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i.droc.txt", sep="")); # progress text
 						count <- count + 1; # progress tracking
 						alg.data <- read.table (paste("rdata/", algorithms[a], ".25.", functions[f], ".", d, ".div", sep=''), quote="\""); # get data
 						droc.resolutions(alg.data, algorithms[a], functions[f], resolutions[r], iterations[ii]); # process data and write results
@@ -126,7 +126,7 @@ droc.all.resolutions <- function()  {
 droc.resolutions <- function (alg1.data, alg1.name, fun.name, resolution, iterations) {
 	result.multicore <- foreach (i = 1:30) %dopar% {
 		# progress (convince myself that the script is still alive)
-			cat(".");
+			#cat(".");
 		c(pwla.slope1(pwla.subset(alg1.data[,i], iterations, resolution)), alg1.name)
 	}
 	cat("\n");
