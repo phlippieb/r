@@ -51,24 +51,16 @@ iterations = [
 	2000
 ]
 
-resolutions = [
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-	11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-	21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-	31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-	41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
-	51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
-	61, 62, 63, 64, 65, 66, 67, 68, 69, 70
-]
+resolutions = range(150,250)
 
 if not allToall:
 	currentrun = 1
-	totalruns = len(algorithms) * len(functions) * len(iterations) * (len(resolutions)-1)
+	totalruns = len(algorithms) * len(functions) * len(iterations) * (len(resolutions))
 	for a in range (0, len(algorithms)):
 		for f in range(0, len(functions)):
-			for r in range(0, len(resolutions)-1):
+			for r in range(0, len(resolutions)):
 				for i in range(0, len(iterations)):
-					print "echo -ne \r[%s/%s] %s %s %s %s %s                " %(currentrun, totalruns, algorithms[a], functions[f], resolutions[r], resolutions[r]+1, iterations[i])
+					print "echo -ne \"\r[%s/%s] %s %s %s %s %s                \"" %(currentrun, totalruns, algorithms[a], functions[f], resolutions[r], resolutions[r]+1, iterations[i])
 					currentrun += 1
 					print "cat drocdata/%s.%s.%sr.%si.droc.txt drocdata/%s.%s.%sr.%si.droc.txt > drocpairs/res/%s.%s.%sr.%sr.%si.txt" %(
 						algorithms[a], functions[f], resolutions[r], iterations[i], 

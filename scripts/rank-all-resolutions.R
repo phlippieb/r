@@ -1,14 +1,10 @@
 rank.all.resolutions <- function() {
 
-   resolutions.feed <- c(
-      "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
-      , "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"
-      , "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"
-      , "31", "32", "33", "34", "35", "36", "37", "38", "39", "40"
-      , "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"
-      , "51", "52", "53", "54", "55", "56", "57", "58", "59", "60"
-      , "61", "62", "63", "64", "65", "66", "67", "68", "69", "70"
-   );
+   resolutions.feed.tmp <- 150:250;
+   resolutions.feed <- c();
+   for (r in resolutions.feed.tmp) {
+      resolutions.feed <- c(resolutions.feed, as.character(r));
+   }
 
    allToAll <- FALSE;
 
@@ -48,6 +44,7 @@ rank.all.resolutions <- function() {
          }
       }
    }
+   print(resolutions);
 
    functions <- c(   
       "ackley",
@@ -71,12 +68,6 @@ rank.all.resolutions <- function() {
       "step",
       "zakharov"
    );
-
-   # only two-dimension functions (for testing only; delete when it works)
-   #functions <- c(
-   #   "goldsteinprice",
-   #   "sixhump"
-   #);
 
    algorithms <- c(  
       "bb",
@@ -107,7 +98,7 @@ rank.all.resolutions <- function() {
 
    
    for (fa in 1:length(functions.algorithms)) {
-      #print(paste("Doing row ", fa, " (", functions.algorithms[fa], ")", sep=""));
+      cat(paste("\rDoing row ", fa, " (", functions.algorithms[fa], ")          ", sep=""));
       row <- c();
       for (i in 1:(length(resolutions))) {
          filename = paste(
@@ -124,22 +115,21 @@ rank.all.resolutions <- function() {
                rankresult
             );
          } else {
-            print (paste ("FILE NOT FOUND: ", filename, sep=""));
+            cat (paste ("\rFILE NOT FOUND: ", filename, "\n", sep=""));
          }
       }
       result.m[fa,] <- row;
    }
+   cat ("\n");
 
    rownames(result.m) <- functions.algorithms;
    colnames(result.m) <- resolutions;
    
+   cat ("writing results to mwu-results/mwu-results.txt\n");
    write.csv( 
       result.m,
       file="mwu-results/mwu-results.txt",
-      #row.names=TRUE,
-      #col.names=TRUE,
       quote=FALSE
-      #sep=","
    );
-   return (result.m);
+   #return (result.m);
 }

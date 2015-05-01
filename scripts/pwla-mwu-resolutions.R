@@ -70,7 +70,7 @@ droc.all.resolutions <- function()  {
 	# The resolutions to compare
 	# This is used as an alternative to re-running each simulation at several different resolutions (i.e. how many of the data points to take into account).
 	# Instead, a resolution of 1 is used to produce data, of which data is selected at lower resolutions by using the parameterised version of pwla(d, resolution).
-	resolutions <- 100:150;
+	resolutions <- 150:250;
 
 	# We still need to limit  this, so.... we could actually merge this file with -iterations? Not sure what to call it.
 	iterations <- c(

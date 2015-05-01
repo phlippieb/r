@@ -52,7 +52,7 @@ iterations = [
 	"2000"
 ]
 
-resolutions_i = range(90,150)
+resolutions_i = range(150,250)
 resolutions = []
 for r in resolutions_i:
     resolutions.append(str(r))
@@ -71,11 +71,12 @@ for a in range (0, len(algorithms)):
 				with open(ifilename) as infile:
 					with open(ofilename, "wt") as outfile:
 						for line in infile:
-							print "echo -ne \r[%s/%s] %s $CLEARSPACE" %(currentrun, totalruns, ifilename)
+							print "echo -ne \"\r[%s/%s] %s $CLEARSPACE\"" %(currentrun, totalruns, ifilename)
 							parts = line.split(' ')
 							outfile.write(parts[0] + ' ' + resolutions[r] + "r\n")
 				currentrun += 1
 				infile.close()
 				outfile.close()
 
+print "echo"
 print "rename -f 's/\.mod$//' drocdata/*.mod"
