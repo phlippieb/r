@@ -51,7 +51,13 @@ iterations = [
 	2000
 ]
 
-resolutions = range(150,250)
+resolutions = range(1,500)
+
+# create the drocpairs directory if necessary
+import os
+drocpairs = os.path.dirname("drocpairs/res/x.txt")
+if not os.path.exists(drocpairs):
+	os.makedirs(drocpairs)
 
 if not allToall:
 	currentrun = 1
