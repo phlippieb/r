@@ -6,6 +6,8 @@
 # pipe through bash to get perfectly renamed output;
 # it still works otherwise, but needs renaming
 
+import os
+
 functions = [
 	"ackley",
 	"elliptic", 
@@ -52,7 +54,7 @@ iterations = [
 	"2000"
 ]
 
-resolutions_i = range(150,250)
+resolutions_i = range(1,500)
 resolutions = []
 for r in resolutions_i:
     resolutions.append(str(r))
@@ -75,8 +77,9 @@ for a in range (0, len(algorithms)):
 							parts = line.split(' ')
 							outfile.write(parts[0] + ' ' + resolutions[r] + "r\n")
 				currentrun += 1
+				os.rename(ofilename, ifilename)
 				infile.close()
 				outfile.close()
 
 print "echo"
-print "rename -f 's/\.mod$//' drocdata/*.mod"
+#print "rename -f 's/\.mod$//' drocdata/*.mod"
