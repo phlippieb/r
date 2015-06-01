@@ -51,7 +51,7 @@ iterations = [
 	2000
 ]
 
-resolutions = range(150,250)
+resolutions = range(1,150)
 
 if not allToall:
 	currentrun = 1

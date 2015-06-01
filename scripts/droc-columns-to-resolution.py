@@ -52,7 +52,7 @@ iterations = [
 	"2000"
 ]
 
-resolutions_i = range(150,250)
+resolutions_i = range(1,150)
 resolutions = []
 for r in resolutions_i:
     resolutions.append(str(r))

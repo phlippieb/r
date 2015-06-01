@@ -1,6 +1,6 @@
 rank.all.resolutions <- function() {
 
-   resolutions.feed.tmp <- 150:250;
+   resolutions.feed.tmp <- 1:250;
    resolutions.feed <- c();
    for (r in resolutions.feed.tmp) {
       resolutions.feed <- c(resolutions.feed, as.character(r));
@@ -44,7 +44,6 @@ rank.all.resolutions <- function() {
          }
       }
    }
-   print(resolutions);
 
    functions <- c(   
       "ackley",
