@@ -1,6 +1,6 @@
 rank.all.resolutions <- function() {
 
-   resolutions.feed.tmp <- 1:20;
+   resolutions.feed.tmp <- 1:100;
    resolutions.feed <- c();
    for (r in resolutions.feed.tmp) {
       resolutions.feed <- c(resolutions.feed, as.character(r));
@@ -108,7 +108,7 @@ rank.all.resolutions <- function() {
             sep=""
          );
          if (file.exists(filename)) {
-            rankresult = rank(filename);
+            rankresult = unlist(rank(filename))[1];
             row <- c(  
                row,
                rankresult
