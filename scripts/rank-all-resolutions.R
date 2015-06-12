@@ -1,6 +1,6 @@
 rank.all.resolutions <- function() {
 
-   resolutions.feed.tmp <- 1:100;
+   resolutions.feed.tmp <- 1:500;
    resolutions.feed <- c();
    for (r in resolutions.feed.tmp) {
       resolutions.feed <- c(resolutions.feed, as.character(r));

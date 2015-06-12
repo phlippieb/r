@@ -70,7 +70,7 @@ droc.all.resolutions <- function()  {
 	# The resolutions to compare
 	# This is used as an alternative to re-running each simulation at several different resolutions (i.e. how many of the data points to take into account).
 	# Instead, a resolution of 1 is used to produce data, of which data is selected at lower resolutions by using the parameterised version of pwla(d, resolution).
-	resolutions <- 1:20;
+	resolutions <- 1:500;
 
 	# We still need to limit  this, so.... we could actually merge this file with -iterations? Not sure what to call it.
 	iterations <- c(
@@ -95,12 +95,12 @@ droc.all.resolutions.getTotalRuns <- function (algorithms, functions, iterations
 		for (a in 1:(length(algorithms)))
 			for (r in 1:length(resolutions))
 				for (i in 1:length(iterations))
-					#if (!file.exists(paste(	"drocdata/", # Don't re-do anything
-					#		algorithms[a], ".", 
-					#		functions[f], ".", 
-					#		resolutions[r], "r.", 
-					#		iterations[i], "i",
-					#		".droc.txt", sep="")))
+					if (!file.exists(paste(	"drocdata/", # Don't re-do anything
+							algorithms[a], ".", 
+							functions[f], ".", 
+							resolutions[r], "r.", 
+							iterations[i], "i",
+							".droc.txt", sep="")))
 						count <- count + 1;
 
 	totalRuns <- count;
@@ -117,12 +117,12 @@ droc.all.resolutions.run <- function(algorithms, functions, d, iterations, resol
 		for (i in 1:length(iterations)) {
 			for (f in 1:length(functions)) {
 				for (a in 1:(length(algorithms))) {
-					#if (!file.exists(paste("drocdata/", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i", ".droc.txt", sep=""))) { # Don't re-do anything
+					if (!file.exists(paste("drocdata/", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i", ".droc.txt", sep=""))) { # Don't re-do anything
 						cat(paste("\r[", count, "/", totalRuns, "] ", algorithms[a], ".", functions[f], ".", resolutions[r], "r.", iterations[i], "i.droc.txt", sep="")); # progress text
 						count <- count + 1; # progress tracking
 						alg.data <- read.table (paste("rdata/", algorithms[a], ".25.", functions[f], ".", d, ".div", sep=''), quote="\""); # get data
 						droc.resolutions(alg.data, algorithms[a], functions[f], resolutions[r], iterations[i]); # process data and write results
-					#}
+					}
 				}
 			}
 		}

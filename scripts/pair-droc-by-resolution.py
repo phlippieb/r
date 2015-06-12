@@ -51,7 +51,7 @@ iterations = [
 	2000
 ]
 
-resolutions = range(1,20)
+resolutions = range(1,500)
 
 # create the drocpairs directory if necessary
 import os
