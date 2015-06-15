@@ -1,3 +1,6 @@
+# name explained:
+# sumOf(rankOf(droc for each algpair) for each resolution)
+
 rank.all.algs.resolutions <- function() {
 
    resolutions <- 1:50;
@@ -73,7 +76,6 @@ rank.all.algs.resolutions <- function() {
                mwu.sum = mwu.sum + rankresult;
             } else {
                cat(paste("\rFILE NOT FOUND:  ", filename, "\n", sep=""));
-               #Sys.sleep(1);
             }
          }
          result.m[aa,r] <- mwu.sum; # this can potentially be cleaned up to not use mwu.sum
