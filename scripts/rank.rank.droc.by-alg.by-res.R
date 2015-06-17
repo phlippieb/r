@@ -6,8 +6,8 @@
 # (om met onvolledige commits te werk)
 rank.comparisons.byres <- function() {
 	resolutions <- 1:10
-	
-	functions <- c(   
+
+	functions <- c(
 		"ackley",
 		"alpine",
 		"eggholder",
@@ -29,8 +29,8 @@ rank.comparisons.byres <- function() {
 		"step",
 		"zakharov"
 	)
-	
-	algorithms <- c(  
+
+	algorithms <- c(
 		"bb",
 		"bba",
 		"gbest",
@@ -52,7 +52,7 @@ rank.comparisons.byres <- function() {
 			}
 		}
 	}
-	
+
 	#result.m <- matrix(
 	#	nrow=length(algorithmpairs),
 	#	ncol=length(resolutions)
@@ -89,7 +89,7 @@ rank.comparisons.byres <- function() {
 				);
 				if (file.exists(filename)) {
 					# calculate rank on algorithm pair for this function and resolution
-					rankresult = unlist(rank(filename))[1];
+					rankresult = unlist(rank.file(filename))[1];
 
 					print(paste("RESULT = ", rankresult, sep=""));
 

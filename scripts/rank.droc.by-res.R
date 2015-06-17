@@ -1,6 +1,6 @@
 rank.all.resolutions <- function() {
 
-   resolutions.feed.tmp <- 1:500;
+   resolutions.feed.tmp <- 1:10;
    resolutions.feed <- c();
    for (r in resolutions.feed.tmp) {
       resolutions.feed <- c(resolutions.feed, as.character(r));
@@ -45,7 +45,7 @@ rank.all.resolutions <- function() {
       }
    }
 
-   functions <- c(   
+   functions <- c(
       "ackley",
       "alpine",
       "eggholder",
@@ -68,7 +68,7 @@ rank.all.resolutions <- function() {
       "zakharov"
    );
 
-   algorithms <- c(  
+   algorithms <- c(
       "bb",
       "bba",
       "gbest",
@@ -83,7 +83,7 @@ rank.all.resolutions <- function() {
    functions.algorithms <- c();
    for (f in functions) {
       for (a in algorithms) {
-         functions.algorithms <- c( 
+         functions.algorithms <- c(
                functions.algorithms,
                paste(a, f, sep=".")
          );
@@ -95,7 +95,7 @@ rank.all.resolutions <- function() {
       ncol=length(resolutions)
    );
 
-   
+
    for (fa in 1:length(functions.algorithms)) {
       cat(paste("\rDoing row ", fa, " (", functions.algorithms[fa], ")          ", sep=""));
       row <- c();
@@ -108,8 +108,8 @@ rank.all.resolutions <- function() {
             sep=""
          );
          if (file.exists(filename)) {
-            rankresult = unlist(rank(filename))[1];
-            row <- c(  
+            rankresult = unlist(rank.file(filename))[1];
+            row <- c(
                row,
                rankresult
             );
@@ -123,9 +123,9 @@ rank.all.resolutions <- function() {
 
    rownames(result.m) <- functions.algorithms;
    colnames(result.m) <- resolutions;
-   
+
    cat ("writing results to mwu-results/mwu-results.txt\n");
-   write.csv( 
+   write.csv(
       result.m,
       file="mwu-results/mwu-results.txt",
       quote=FALSE

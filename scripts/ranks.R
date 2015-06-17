@@ -1,10 +1,10 @@
 rankAll <- function() {
-  functions <- c( "ackley", "alpine", "elliptic", "eggholder", 
-                  "goldsteinprice", "griewank", "levy", "michalewicz", 
-                  "quadric", "quartic", "rastrigin", "rosenbrock", 
-                  "salomon", "schwefel1_2", "schwefel2_22", "schwefel2_26", 
+  functions <- c( "ackley", "alpine", "elliptic", "eggholder",
+                  "goldsteinprice", "griewank", "levy", "michalewicz",
+                  "quadric", "quartic", "rastrigin", "rosenbrock",
+                  "salomon", "schwefel1_2", "schwefel2_22", "schwefel2_26",
                   "sixhump", "spherical", "step", "zakharov");
-  
+
   functions <- c( "goldsteinprice", "sixhump");
 
   algorithms <- c("gbest", "lbest", "vn", "spso", "gcstar", "gcring", "gcvn", "bb", "bbe");
@@ -53,7 +53,7 @@ rankAll <- function() {
                             a34=rep("", length(functions)),
                             a35=rep("", length(functions)),
                             a36=rep("", length(functions)),
-                            
+
                             stringsAsFactors=FALSE);
   result.function <- c();
   for (f in 1:length(functions)) {
@@ -64,7 +64,7 @@ rankAll <- function() {
       for (a2 in (a1+1):length(algorithms)) {
         print(paste(count, " doing ", algorithms[a1], ".", algorithms[a2], ".", functions[f], ".txt", sep=""));
         count <- count + 1;
-        rankList <- rank(paste("./mwu/",
+        rankList <- rank.file(paste("./mwu/",
                     algorithms[a1],
                     ".",
                     algorithms[a2],
@@ -94,7 +94,7 @@ rankAll <- function() {
 rank <- function(source) {
    x <- scan(source, what=list(perf=0,alg=""))
    data <- c(x$perf)
-   data 
+   data
    group <- factor(x$alg)
    group
    rankList <- rankF(data,group,0.05,FALSE)
@@ -153,5 +153,3 @@ rankF <- function(data, group, alpha=0.05, max=TRUE) {
    }
    return (rankList)
 }
- 
-

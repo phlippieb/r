@@ -5,7 +5,7 @@ rank.all.algs.resolutions <- function() {
 
    resolutions <- 1:50;
 
-   functions <- c(   
+   functions <- c(
       "ackley",
       "alpine",
       "eggholder",
@@ -28,7 +28,7 @@ rank.all.algs.resolutions <- function() {
       "zakharov"
    );
 
-   algorithms <- c(  
+   algorithms <- c(
       "bb",
       "bba",
       "gbest",
@@ -72,7 +72,7 @@ rank.all.algs.resolutions <- function() {
                sep=""
             );
             if (file.exists(filename)) {
-               rankresult = unlist(rank(filename))[1];
+               rankresult = unlist(rank.file(filename))[1];
                mwu.sum = mwu.sum + rankresult;
             } else {
                cat(paste("\rFILE NOT FOUND:  ", filename, "\n", sep=""));
