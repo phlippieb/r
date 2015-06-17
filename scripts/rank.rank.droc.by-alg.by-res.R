@@ -6,7 +6,7 @@
 # (om met onvolledige commits te werk)
 rank.comparisons.byres <- function() {
 
-	resolutions <- 1:2
+	resolutions <- 1:2 # TODO test on a wider range
 
 	functions <- c(
 		"ackley",
@@ -85,8 +85,8 @@ rank.comparisons.byres <- function() {
 				);
 				if (file.exists(filename)) {
 					# calculate rank on algorithm pair for this function and resolution
-					rankresult = unlist(rank.file(filename))[1];
-					
+					rankresult = unlist(unname(rank.file(filename)))[1];
+
 					# append to results for this resolution
 					thisRow <- c(thisRow, rankresult);
 
@@ -116,25 +116,21 @@ rank.comparisons.byres <- function() {
 	}
 	colnames(allResults) <- allResults.colNames;
 
-	return (allResults)
+	#return (allResults)
 
 	# rank the ranks!
 
-	#finalResults <- c();
-#
-#	#for (r in 1:(length(resolutions)-1)) {
-#	#	print("trying to rank two rows...")
-#	#	print("these are the two rows:")
-#	#	print(allResults[r])
-#	#	print(allResults[r+1])
-#	#	x <- rank(c(allResults[r], allResults[r+1]), c(r, r+1));
-#	#	print("done! getting results...")
-#	#	x <- unlist(unname(x[1]));
-#	#	print("done! pasting results together...")
-#	#	finalResults <- c(finalResults, x);
-#	#}
-#
-#	#print("all done! returning results.")
-	#return (finalResults);
+	finalResults <- c();
+
+	for (r in 1:(length(resolutions)-1)) {
+		print(unname(allResults[r,]))
+		print(unname(allResults[r+1,]))
+		data <- c(unname(allResults[r,]), unname(allResults[r+1,]))
+		classes <- c(r, r+1);
+		x <- rank(data, classes)
+		x <- unlist(unname(x[1]));
+		finalResults <- c(finalResults, x);
+	}
+	return (finalResults);
 
 }
