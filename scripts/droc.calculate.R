@@ -13,19 +13,19 @@
 # 4. use ? from ranks.R to calculate MWU results on pairs
 
 droc.all.resolutions <- function()  {
-	
+
 	# Check if a directory called drocdata already exists.
 	# If not, create it
 	if(!file.exists("drocdata"))
 		dir.create("drocdata");
-	
+
 	library(doParallel);
 	numCores <- as.numeric(readline("How many cores to use? "));
 	registerDoParallel(cores=numCores);
 
 	# initialize total runs needed
 	totalRuns = 0;
-	
+
 	# Define the functions that we want to use
 	# 1: the variable-dimension functions
 	functions1 <- c(
@@ -70,13 +70,12 @@ droc.all.resolutions <- function()  {
 	# The resolutions to compare
 	# This is used as an alternative to re-running each simulation at several different resolutions (i.e. how many of the data points to take into account).
 	# Instead, a resolution of 1 is used to produce data, of which data is selected at lower resolutions by using the parameterised version of pwla(d, resolution).
-	resolutions <- 1:500;
+	resolutions <- 200:500;
 
 	# We still need to limit  this, so.... we could actually merge this file with -iterations? Not sure what to call it.
 	iterations <- c(
 		2000
 	);
-	
 
 	totalRuns = totalRuns + droc.all.resolutions.getTotalRuns(algorithms, functions1, iterations, resolutions);
 	totalRuns = totalRuns + droc.all.resolutions.getTotalRuns(algorithms, functions2, iterations, resolutions);
@@ -96,9 +95,9 @@ droc.all.resolutions.getTotalRuns <- function (algorithms, functions, iterations
 			for (r in 1:length(resolutions))
 				for (i in 1:length(iterations))
 					if (!file.exists(paste(	"drocdata/", # Don't re-do anything
-							algorithms[a], ".", 
-							functions[f], ".", 
-							resolutions[r], "r.", 
+							algorithms[a], ".",
+							functions[f], ".",
+							resolutions[r], "r.",
 							iterations[i], "i",
 							".droc.txt", sep="")))
 						count <- count + 1;
@@ -144,7 +143,7 @@ droc.resolutions <- function (alg1.data, alg1.name, fun.name, resolution, iterat
 	write.table(
 					result.multicore,
 					paste(
-						"drocdata/", 
+						"drocdata/",
 						paste(
 							alg1.name, ".",
 							fun.name,  ".",
@@ -152,7 +151,7 @@ droc.resolutions <- function (alg1.data, alg1.name, fun.name, resolution, iterat
 							iterations,  "i.",
 							"droc.txt",
 							sep=""
-						), 
+						),
 						sep=""
 					),
 					row.names=FALSE,

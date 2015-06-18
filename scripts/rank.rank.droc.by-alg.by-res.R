@@ -6,7 +6,7 @@
 # (om met onvolledige commits te werk)
 rank.comparisons.byres <- function() {
 
-	resolutions <- 1:2 # TODO test on a wider range
+	resolutions <- 1:500
 
 	functions <- c(
 		"ackley",
@@ -54,25 +54,21 @@ rank.comparisons.byres <- function() {
 		}
 	}
 
-	#result.m <- matrix(
-	#	nrow=length(algorithmpairs),
-	#	ncol=length(resolutions)
-	#);
+	# rank results will be stored in this:
+	ranks <- c();
+	ranks.rowNames <- c();
 
-	# final results will be stored in this:
-	allResults <- c();
-	allResults.rowNames <- c();
+	cat("getting ranks among algorithms...\n");
 
 	# for each resolution:
 	for (r in 1:length(resolutions)) {
+		# print some progress text
+		cat("resolution = ", r, "\n");
 		thisRow <- c();
-
 		# for each algorithm pair:
 		for (aa in 2:length(algorithmpairs)) {
-
 			# for each function:
 			for (f in 1:length(functions)) {
-
 				# get the file with the data
 				# (paired up by algorithm)
 				filename = paste(
@@ -86,10 +82,8 @@ rank.comparisons.byres <- function() {
 				if (file.exists(filename)) {
 					# calculate rank on algorithm pair for this function and resolution
 					rankresult = unlist(unname(rank.file(filename)))[1];
-
 					# append to results for this resolution
 					thisRow <- c(thisRow, rankresult);
-
 				} else {
 					# if file is not found, stop executing with an error message
 					stop(paste("\rFILE NOT FOUND:  ", filename, "\n", sep=""));
@@ -100,37 +94,41 @@ rank.comparisons.byres <- function() {
 		# after all mwu ranks are added to results for this row,
 		# add the row to the final results for all rows
 
-		allResults <- rbind(allResults, thisRow);
-		allResults.rowNames <- c(allResults.rowNames, r);
+		ranks <- rbind(ranks, thisRow);
+		ranks.rowNames <- c(ranks.rowNames, r);
 	}
 
-	# name rows in allResults to reflect the resolutions used
-	rownames(allResults) <- allResults.rowNames;
+	# name rows in ranks to reflect the resolutions used
+	# NOTE: we don't return this; mostly available for checking results
+	#		before next section.
+	rownames(ranks) <- ranks.rowNames;
 
-	# name cols in allResults to reflect the algorithms and functions used
-	allResults.colNames <- c();
+	# name cols in ranks to reflect the algorithms and functions used
+	ranks.colNames <- c();
 	for (aa in 2:length(algorithmpairs)) {
 		for (f in 1:length(functions)) {
-			allResults.colNames <- c(allResults.colNames, paste(algorithmpairs[aa], functions[f], sep="."));
+			ranks.colNames <- c(ranks.colNames, paste(algorithmpairs[aa], functions[f], sep="."));
 		}
 	}
-	colnames(allResults) <- allResults.colNames;
-
-	#return (allResults)
+	colnames(ranks) <- ranks.colNames;
 
 	# rank the ranks!
+	cat("done. ranking the ranks...\n")
 
-	finalResults <- c();
+	finalranks <- c();
+	finalranks.names <- c();
 
 	for (r in 1:(length(resolutions)-1)) {
-		print(unname(allResults[r,]))
-		print(unname(allResults[r+1,]))
-		data <- c(unname(allResults[r,]), unname(allResults[r+1,]))
+		cat("resolutions =", r, "and", r+1, "\n");
+		data <- c(unname(ranks[r,]), unname(ranks[r+1,]))
 		classes <- c(r, r+1);
 		x <- rank(data, classes)
 		x <- unlist(unname(x[1]));
-		finalResults <- c(finalResults, x);
+		finalranks <- c(finalranks, x);
+		finalranks.names <- c(finalranks.names, paste(r, "-", r+1, sep=""));
 	}
-	return (finalResults);
+	names(finalranks) <- finalranks.names;
+	cat("done\n")
+	return (finalranks);
 
 }

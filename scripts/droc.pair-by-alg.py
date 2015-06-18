@@ -54,7 +54,7 @@ iterations = [
 	"2000"
 ]
 
-resolutions_i = range(1,11) #EXCLUSIVE!
+resolutions_i = range(1,501) #EXCLUSIVE!
 resolutions = []
 for r in resolutions_i:
     resolutions.append(str(r))
